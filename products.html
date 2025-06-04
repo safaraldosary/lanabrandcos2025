@@ -83,33 +83,6 @@
     alert(productName + " تمت إضافته إلى السلة");
   }
 </script>
- <div>
-  <h3>اسم المنتج</h3>
-  <button id="decrease">-</button>
-  <span id="quantity">1</span>
-  <button id="increase">+</button>
-</div>
-
-<script>
-  let quantity = 1;
-  const quantitySpan = document.getElementById('quantity');
-  const increaseBtn = document.getElementById('increase');
-  const decreaseBtn = document.getElementById('decrease');
-
-  increaseBtn.addEventListener('click', () => {
-    quantity++;
-    quantitySpan.textContent = quantity;
-    // هنا يمكنك إضافة كود لتحديث الكمية في السلة بدون إعادة تحميل الصفحة
-  });
-
-  decreaseBtn.addEventListener('click', () => {
-    if (quantity > 1) {
-      quantity--;
-      quantitySpan.textContent = quantity;
-      // هنا نفس الشيء لتحديث الكمية في السلة
-    }
-  });
-</script>
-
+ 
 </body>
 </html>
