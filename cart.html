@@ -1,0 +1,131 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>سلة المشتريات - لانا براند</title>
+  <style>
+    body { font-family: Arial; background-color: #f9f9f9; margin: 0; }
+    header, .footer { background-color: #007b8f; color: white; text-align: center; padding: 20px; }
+    nav { background-color: #005f6b; padding: 10px; text-align: center; }
+    nav a { color: white; margin: 10px; text-decoration: none; font-weight: bold; }
+    .cart-container {
+      padding: 30px 20px;
+      max-width: 800px;
+      margin: auto;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .cart-items ul {
+      list-style: none;
+      padding: 0;
+    }
+    .cart-items li {
+      background: #eee;
+      margin-bottom: 10px;
+      padding: 10px;
+      border-radius: 5px;
+    }
+    form label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    form input, form textarea {
+      width: 100%;
+      padding: 8px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    .submit-btn {
+      background-color: #007b8f;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 5px;
+      margin-top: 20px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+
+<header><h1>لانا براند</h1></header>
+<nav>
+  <a href="index.html">الرئيسية</a>
+  <a href="products.html">المنتجات</a>
+  <a href="cart.html">سلة المشتريات</a>
+</nav>
+
+<div class="cart-container">
+  <h2>🛒 سلة المشتريات</h2>
+  <div class="cart-items">
+    <ul id="cart-list">
+      <li>لا توجد منتجات في السلة.</li>
+    </ul>
+  </div>
+
+  <form onsubmit="submitOrder(event)">
+    <label>اسم الزبون:</label>
+    <input type="text" id="name" required>
+    <label>رقم الزبون:</label>
+    <input type="tel" id="phone" required>
+    <label>محافظة الزبون:</label>
+    <input type="text" id="city" required>
+    <label>عنوان الزبون:</label>
+    <textarea id="address" rows="3" required></textarea>
+    <button class="submit-btn" type="submit">تأكيد الطلب</button>
+  </form>
+</div>
+
+<div class="footer"><p>© 2025 لانا براند - جميع الحقوق محفوظة</p></div>
+
+<script>
+  function loadCart() {
+    const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+    const list = document.getElementById("cart-list");
+    list.innerHTML = "";
+    if (cart.length === 0) {
+      list.innerHTML = "<li>لا توجد منتجات في السلة.</li>";
+    } else {
+      cart.forEach(item => {
+        const li = document.createElement("li");
+        li.textContent = item;
+        list.appendChild(li);
+      });
+    }
+  }
+
+  function submitOrder(event) {
+    event.preventDefault();
+    const name = document.getElementById("name").value.trim();
+    const phone = document.getElementById("phone").value.trim();
+    const city = document.getElementById("city").value.trim();
+    const address = document.getElementById("address").value.trim();
+    const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+
+    let message = `طلب جديد من الزبون:%0A`;
+    message += `🧑 الاسم: ${name}%0A`;
+    message += `📞 الرقم: ${phone}%0A`;
+    message += `🏙️ المحافظة: ${city}%0A`;
+    message += `📍 العنوان: ${address}%0A`;
+    message += `🛒 المنتجات:%0A`;
+    cart.forEach((item, index) => {
+      message += `${index + 1}- ${item}%0A`;
+    });
+
+    const phoneNumber = "9647834374662";
+    const whatsappURL = `https://wa.me/${phoneNumber}?text=${message}`;
+    window.open(whatsappURL, "_blank");
+
+    localStorage.removeItem("cart");
+    window.location.href = "index.html";
+  }
+
+  window.onload = loadCart;
+</script>
+
+</body>
+</html>
