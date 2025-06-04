@@ -1,7 +1,8 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>سلة المشتريات - لانا براند</title>
   <style>
     body { font-family: Arial; background-color: #f9f9f9; margin: 0; }
@@ -28,17 +29,29 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      font-size: 1.2em;
+    }
+    .cart-items button {
+      background-color: #e74c3c;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1em;
     }
     form label {
       display: block;
       margin-top: 10px;
       font-weight: bold;
+      font-size: 1.1em;
     }
     form input, form textarea {
       width: 100%;
       padding: 8px;
       border-radius: 5px;
       border: 1px solid #ccc;
+      font-size: 1em;
     }
     .submit-btn {
       background-color: #007b8f;
@@ -48,16 +61,8 @@
       border-radius: 5px;
       margin-top: 20px;
       cursor: pointer;
-      font-size: 16px;
-    }
-    .del-btn {
-      background-color: #e74c3c;
-      color: white;
-      border: none;
-      padding: 5px 10px;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 14px;
+      font-size: 1.2em;
+      width: 100%;
     }
   </style>
 </head>
@@ -80,11 +85,11 @@
 
   <form onsubmit="submitOrder(event)">
     <label>اسم الزبون:</label>
-    <input type="text" id="name" required>
+    <input type="text" id="name" required />
     <label>رقم الزبون:</label>
-    <input type="tel" id="phone" required>
+    <input type="tel" id="phone" required />
     <label>محافظة الزبون:</label>
-    <input type="text" id="city" required>
+    <input type="text" id="city" required />
     <label>عنوان الزبون:</label>
     <textarea id="address" rows="3" required></textarea>
     <button class="submit-btn" type="submit">تأكيد الطلب</button>
@@ -106,15 +111,14 @@
 
     cart.forEach((item, index) => {
       const li = document.createElement("li");
-      li.textContent = item;
+      li.textContent = `${item.name} - الكمية: ${item.quantity}`;
 
       const delBtn = document.createElement("button");
       delBtn.textContent = "❌ حذف";
-      delBtn.classList.add("del-btn");
       delBtn.onclick = () => {
         cart.splice(index, 1);
         localStorage.setItem("cart", JSON.stringify(cart));
-        loadCart(); // إعادة تحميل السلة بعد الحذف
+        loadCart();
       };
 
       li.appendChild(delBtn);
@@ -124,6 +128,7 @@
 
   function submitOrder(event) {
     event.preventDefault();
+
     const name = document.getElementById("name").value.trim();
     const phone = document.getElementById("phone").value.trim();
     const city = document.getElementById("city").value.trim();
@@ -131,7 +136,7 @@
     const cart = JSON.parse(localStorage.getItem("cart") || "[]");
 
     if (cart.length === 0) {
-      alert("سلة المشتريات فارغة. الرجاء إضافة منتجات قبل تأكيد الطلب.");
+      alert("سلة المشتريات فارغة، يرجى إضافة منتجات قبل تأكيد الطلب.");
       return;
     }
 
@@ -141,11 +146,12 @@
     message += `🏙️ المحافظة: ${city}%0A`;
     message += `📍 العنوان: ${address}%0A`;
     message += `🛒 المنتجات:%0A`;
+
     cart.forEach((item, index) => {
-      message += `${index + 1}- ${item}%0A`;
+      message += `${index + 1}- ${item.name} (الكمية: ${item.quantity})%0A`;
     });
 
-    const phoneNumber = "9647834374662"; // عدل رقم واتساب إذا لزم الأمر
+    const phoneNumber = "9647834374662"; // عدّل رقم واتساب هنا إذا تحتاج
     const whatsappURL = `https://wa.me/${phoneNumber}?text=${message}`;
     window.open(whatsappURL, "_blank");
 
