@@ -9,7 +9,6 @@
       font-family: Arial;
       background-color: #f9f9f9;
       margin: 0;
-      position: relative;
     }
 
     header, .footer {
@@ -113,34 +112,56 @@
       display: inline-block;
     }
 
-    .cart-icon {
+    /* أيقونة السلة الجانبية */
+    .cart-icon-container {
       position: fixed;
-      top: 100px;
-      left: 20px;
-      background-color: #007b8f;
-      color: white;
-      border-radius: 50%;
-      width: 70px;
-      height: 70px;
-      font-size: 36px;
+      top: 50%;
+      right: 0;
+      transform: translateY(-50%);
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      box-shadow: 0 0 10px rgba(0,0,0,0.3);
       z-index: 1000;
     }
 
-    .cart-icon span {
-      font-size: 13px;
+    .cart-total-label {
+      background-color: #fff;
+      color: #007b8f;
+      font-weight: bold;
       text-align: center;
-      line-height: 1.2;
+      padding: 8px 10px;
+      border-radius: 10px;
+      font-size: 16px;
+      margin-bottom: 5px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+      width: 80px;
     }
 
-    .footer {
-      margin-top: 40px;
+    .cart-icon {
+      background-color: #007b8f;
+      border-radius: 50%;
+      width: 70px;
+      height: 70px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      font-size: 30px;
+      cursor: pointer;
+      position: relative;
     }
+
+    .cart-count {
+      position: absolute;
+      top: -8px;
+      left: -8px;
+      background-color: red;
+      color: white;
+      font-size: 16px;
+      padding: 3px 7px;
+      border-radius: 50%;
+    }
+
   </style>
 </head>
 <body>
@@ -152,13 +173,17 @@
   <a href="cart.html">سلة المشتريات</a>
 </nav>
 
-<!-- أيقونة السلة -->
-<div class="cart-icon" onclick="goToCart()">
-  <span>السعر الإجمالي</span>
-  <strong id="products-total">0</strong>
+<!-- أيقونة السلة الجانبية -->
+<div class="cart-icon-container">
+  <div class="cart-total-label" id="products-total">0 د.ع</div>
+  <div class="cart-icon" onclick="location.href='cart.html'">
+    🛒
+    <div class="cart-count" id="cart-count">0</div>
+  </div>
 </div>
 
 <div class="products">
+
   <!-- منتج -->
   <div class="product" data-name="صابون لبان الذكر" data-price="5000">
     <img src="https://via.placeholder.com/350x300?text=منتج+1" alt="منتج 1">
@@ -190,22 +215,25 @@
 
     <button class="add-btn">أضف إلى السلة</button>
   </div>
+
 </div>
 
 <div class="footer"><p>© 2025 لانا براند - جميع الحقوق محفوظة</p></div>
 
 <script>
-  function loadTotal() {
-    const products = document.querySelectorAll('.product');
+  function updateTotalDisplay() {
     let total = 0;
+    let count = 0;
 
-    products.forEach(product => {
+    document.querySelectorAll('.product').forEach(product => {
       const price = parseInt(product.getAttribute('data-price'));
-      const quantity = parseInt(product.querySelector('.quantity').textContent);
-      total += price * quantity;
+      const qty = parseInt(product.querySelector('.quantity').textContent);
+      total += price * qty;
+      count += qty;
     });
 
     document.getElementById("products-total").textContent = `${total.toLocaleString()} د.ع`;
+    document.getElementById("cart-count").textContent = count;
   }
 
   document.querySelectorAll('.product').forEach(product => {
@@ -216,14 +244,16 @@
 
     decreaseBtn.onclick = () => {
       let current = parseInt(quantitySpan.textContent);
-      if (current > 0) quantitySpan.textContent = current - 1;
-      loadTotal();
+      if (current > 0) {
+        quantitySpan.textContent = current - 1;
+        updateTotalDisplay();
+      }
     };
 
     increaseBtn.onclick = () => {
       let current = parseInt(quantitySpan.textContent);
       quantitySpan.textContent = current + 1;
-      loadTotal();
+      updateTotalDisplay();
     };
 
     addBtn.onclick = () => {
@@ -231,10 +261,7 @@
       const price = parseInt(product.getAttribute("data-price"));
       const quantity = parseInt(quantitySpan.textContent);
 
-      if (quantity === 0) {
-        alert("الرجاء اختيار كمية أكبر من 0");
-        return;
-      }
+      if (quantity === 0) return;
 
       let cart = JSON.parse(localStorage.getItem("cart") || "[]");
       let existing = cart.find(item => item.name === name);
@@ -248,15 +275,11 @@
       localStorage.setItem("cart", JSON.stringify(cart));
       alert(`${name} تمت إضافته إلى السلة (الكمية: ${quantity})`);
       quantitySpan.textContent = 0;
-      loadTotal();
+      updateTotalDisplay();
     };
   });
 
-  function goToCart() {
-    window.location.href = "cart.html";
-  }
-
-  loadTotal();
+  updateTotalDisplay();
 </script>
 
 </body>
