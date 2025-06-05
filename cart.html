@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -5,27 +7,9 @@
   <title>سلة المشتريات - لانا براند</title>
   <style>
     body { font-family: Arial; background-color: #f9f9f9; margin: 0; }
-    header, .footer {
-      background-color: #007b8f;
-      color: white;
-      text-align: center;
-      padding: 20px;
-    }
-
-    nav {
-      background-color: #005f6b;
-      padding: 10px;
-      text-align: center;
-    }
-
-    nav a {
-      color: white;
-      margin: 10px;
-      text-decoration: none;
-      font-weight: bold;
-      font-size: 1.2em;
-    }
-
+    header, .footer { background-color: #007b8f; color: white; text-align: center; padding: 20px; }
+    nav { background-color: #005f6b; padding: 10px; text-align: center; }
+    nav a { color: white; margin: 10px; text-decoration: none; font-weight: bold; }
     .cart-container {
       padding: 30px 20px;
       max-width: 800px;
@@ -34,79 +18,36 @@
       border-radius: 10px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
-
     .cart-items ul {
       list-style: none;
       padding: 0;
     }
-
     .cart-items li {
       background: #eee;
-      margin-bottom: 15px;
-      padding: 20px;
-      border-radius: 8px;
-      font-size: 1.3em;
-    }
-
-    .item-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
       margin-bottom: 10px;
-    }
-
-    .qty-controls {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-top: 10px;
-    }
-
-    .qty-controls button {
-      background-color: #007b8f;
-      color: white;
-      border: none;
-      padding: 8px 12px;
+      padding: 10px;
       border-radius: 5px;
-      cursor: pointer;
-      font-size: 1.1em;
     }
-
-    .cart-items button.remove {
-      background-color: #e74c3c;
-    }
-
-    #total-price {
-      text-align: center;
-      font-size: 1.5em;
-      font-weight: bold;
-      margin-top: 25px;
-    }
-
     form label {
       display: block;
       margin-top: 10px;
       font-weight: bold;
     }
-
     form input, form textarea {
       width: 100%;
-      padding: 10px;
+      padding: 8px;
       border-radius: 5px;
       border: 1px solid #ccc;
-      font-size: 1em;
     }
-
     .submit-btn {
-      background-color: #28a745;
+      background-color: #007b8f;
       color: white;
-      padding: 14px 20px;
+      padding: 12px 20px;
       border: none;
       border-radius: 5px;
       margin-top: 20px;
       cursor: pointer;
-      font-size: 1.3em;
-      width: 100%;
+      font-size: 16px;
     }
   </style>
 </head>
@@ -125,19 +66,18 @@
     <ul id="cart-list">
       <li>لا توجد منتجات في السلة.</li>
     </ul>
-    <p id="total-price"></p>
   </div>
 
   <form onsubmit="submitOrder(event)">
     <label>اسم الزبون:</label>
-    <input type="text" id="name" required />
+    <input type="text" id="name" required>
     <label>رقم الزبون:</label>
-    <input type="tel" id="phone" required />
-    <label>المحافظة:</label>
-    <input type="text" id="city" required />
-    <label>العنوان:</label>
+    <input type="tel" id="phone" required>
+    <label>محافظة الزبون:</label>
+    <input type="text" id="city" required>
+    <label>عنوان الزبون:</label>
     <textarea id="address" rows="3" required></textarea>
-    <button class="submit-btn" type="submit">تأكيد الطلب عبر واتساب</button>
+    <button class="submit-btn" type="submit">تأكيد الطلب</button>
   </form>
 </div>
 
@@ -147,53 +87,16 @@
   function loadCart() {
     const cart = JSON.parse(localStorage.getItem("cart") || "[]");
     const list = document.getElementById("cart-list");
-    const totalDisplay = document.getElementById("total-price");
     list.innerHTML = "";
-
     if (cart.length === 0) {
       list.innerHTML = "<li>لا توجد منتجات في السلة.</li>";
-      totalDisplay.textContent = "";
-      return;
+    } else {
+      cart.forEach(item => {
+        const li = document.createElement("li");
+        li.textContent = item;
+        list.appendChild(li);
+      });
     }
-
-    let total = 0;
-
-    cart.forEach((item, index) => {
-      const itemTotal = item.price * item.quantity;
-      total += itemTotal;
-
-      const li = document.createElement("li");
-      li.innerHTML = `
-        <div class="item-header">
-          <strong>${item.name}</strong>
-          <button class="remove" onclick="removeItem(${index})">❌ حذف</button>
-        </div>
-        <div>السعر: ${item.price.toLocaleString()} × ${item.quantity} = <strong>${itemTotal.toLocaleString()} د.ع</strong></div>
-        <div class="qty-controls">
-          <button onclick="changeQty(${index}, -1)">➖</button>
-          <span>${item.quantity}</span>
-          <button onclick="changeQty(${index}, 1)">➕</button>
-        </div>
-      `;
-      list.appendChild(li);
-    });
-
-    totalDisplay.textContent = `الإجمالي الكلي: ${total.toLocaleString()} د.ع`;
-  }
-
-  function changeQty(index, change) {
-    let cart = JSON.parse(localStorage.getItem("cart") || "[]");
-    cart[index].quantity += change;
-    if (cart[index].quantity <= 0) cart.splice(index, 1);
-    localStorage.setItem("cart", JSON.stringify(cart));
-    loadCart();
-  }
-
-  function removeItem(index) {
-    let cart = JSON.parse(localStorage.getItem("cart") || "[]");
-    cart.splice(index, 1);
-    localStorage.setItem("cart", JSON.stringify(cart));
-    loadCart();
   }
 
   function submitOrder(event) {
@@ -204,21 +107,83 @@
     const address = document.getElementById("address").value.trim();
     const cart = JSON.parse(localStorage.getItem("cart") || "[]");
 
-    if (cart.length === 0) {
-      alert("سلة المشتريات فارغة.");
-      return;
-    }
-
     let message = `طلب جديد من الزبون:%0A`;
-    message += `🧑 الاسم: ${name}%0A📞 الرقم: ${phone}%0A🏙️ المحافظة: ${city}%0A📍 العنوان: ${address}%0A🛒 المنتجات:%0A`;
-
-    cart.forEach((item, i) => {
-      message += `${i + 1}- ${item.name} (الكمية: ${item.quantity}, السعر: ${item.price} د.ع)%0A`;
+    message += `🧑 الاسم: ${name}%0A`;
+    message += `📞 الرقم: ${phone}%0A`;
+    message += `🏙️ المحافظة: ${city}%0A`;
+    message += `📍 العنوان: ${address}%0A`;
+    message += `🛒 المنتجات:%0A`;
+    cart.forEach((item, index) => {
+      message += `${index + 1}- ${item}%0A`;
     });
 
-    const whatsappNumber = "9647834374662";
-    const whatsappURL = `https://wa.me/${whatsappNumber}?text=${message}`;
+    const phoneNumber = "9647834374662";
+    const whatsappURL = `https://wa.me/${phoneNumber}?text=${message}`;
     window.open(whatsappURL, "_blank");
+
+    localStorage.removeItem("cart");
+    window.location.href = "index.html";
+  }
+
+  window.onload = loadCart;
+</script>
+<script>
+  function loadCart() {
+    const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+    const list = document.getElementById("cart-list");
+    list.innerHTML = "";
+
+    if (cart.length === 0) {
+      list.innerHTML = "<li>لا توجد منتجات في السلة.</li>";
+    } else {
+      cart.forEach((item, index) => {
+        const li = document.createElement("li");
+        li.textContent = item + " ";
+
+        const delBtn = document.createElement("button");
+        delBtn.textContent = "❌ حذف";
+        delBtn.style.marginRight = "10px";
+        delBtn.style.backgroundColor = "#e74c3c";
+        delBtn.style.color = "white";
+        delBtn.style.border = "none";
+        delBtn.style.padding = "5px 10px";
+        delBtn.style.borderRadius = "5px";
+        delBtn.style.cursor = "pointer";
+
+        delBtn.onclick = function () {
+          cart.splice(index, 1);
+          localStorage.setItem("cart", JSON.stringify(cart));
+          loadCart(); // إعادة تحميل السلة بعد الحذف
+        };
+
+        li.appendChild(delBtn);
+        list.appendChild(li);
+      });
+    }
+  }
+
+  function submitOrder(event) {
+    event.preventDefault();
+    const name = document.getElementById("name").value.trim();
+    const phone = document.getElementById("phone").value.trim();
+    const city = document.getElementById("city").value.trim();
+    const address = document.getElementById("address").value.trim();
+    const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+
+    let message = `طلب جديد من الزبون:%0A`;
+    message += `🧑 الاسم: ${name}%0A`;
+    message += `📞 الرقم: ${phone}%0A`;
+    message += `🏙️ المحافظة: ${city}%0A`;
+    message += `📍 العنوان: ${address}%0A`;
+    message += `🛒 المنتجات:%0A`;
+    cart.forEach((item, index) => {
+      message += `${index + 1}- ${item}%0A`;
+    });
+
+    const phoneNumber = "9647834374662";
+    const whatsappURL = `https://wa.me/${phoneNumber}?text=${message}`;
+    window.open(whatsappURL, "_blank");
+
     localStorage.removeItem("cart");
     window.location.href = "index.html";
   }
@@ -228,3 +193,5 @@
 
 </body>
 </html>
+
+هذا الكو  دي مال سله المشتريات عدل عليه 
