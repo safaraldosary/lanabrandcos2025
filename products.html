@@ -76,7 +76,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    min-height: 420px;
+    min-height: 460px;
     transition: box-shadow 0.2s;
   }
   .product:hover {
@@ -101,10 +101,38 @@
     text-align: center;
     flex-grow: 1;
   }
-  .product p.price {
+  .product .price,
+  .product .subprice {
     font-size: 18px;
     font-weight: bold;
-    margin: 8px 0 15px;
+    margin: 6px 0;
+  }
+  .product .quantity-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+  }
+  .product .quantity-controls button {
+    background-color: #007b8f;
+    border: none;
+    color: white;
+    font-size: 22px;
+    padding: 2px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.3s;
+  }
+  .product .quantity-controls button:hover {
+    background-color: #005f68;
+  }
+  .product .quantity-controls span {
+    font-size: 18px;
+    width: 36px;
+    text-align: center;
+    display: inline-block;
   }
   .product button.add-btn {
     background-color: #007b8f;
@@ -128,29 +156,129 @@
     transform: translateY(-50%);
     background-color: #007b8f;
     border-radius: 15px 0 0 15px;
-    padding: 18px 14px;
-    width: 120px;
+    padding: 10px 8px;
+    width: 100px;
     text-align: center;
     color: white;
     cursor: pointer;
     box-shadow: 0 0 12px rgb(0 123 143 / 0.7);
     z-index: 1000;
+    font-size: 14px;
   }
   .cart-sidebar:hover {
     background-color: #005f68;
   }
   .cart-sidebar .cart-icon {
-    font-size: 40px;
-    margin-bottom: 8px;
+    font-size: 32px;
+    margin-bottom: 6px;
   }
   .cart-sidebar .cart-count {
-    font-size: 20px;
     font-weight: bold;
   }
   .cart-sidebar .cart-total {
-    font-size: 20px;
-    margin-top: 8px;
+    margin-top: 4px;
     font-weight: bold;
+  }
+
+  /* نافذة المنتج المنبثقة */
+  #modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: rgba(0,0,0,0.5);
+    justify-content: center;
+    align-items: center;
+  }
+  #modal.active {
+    display: flex;
+  }
+  #modal-content {
+    background: white;
+    border-radius: 12px;
+    max-width: 420px;
+    width: 90%;
+    padding: 20px 25px;
+    box-sizing: border-box;
+    text-align: center;
+    position: relative;
+  }
+  #modal-content img {
+    max-width: 100%;
+    max-height: 200px;
+    object-fit: contain;
+    border-radius: 10px;
+    margin-bottom: 15px;
+  }
+  #modal-content h3 {
+    margin-bottom: 8px;
+    font-size: 24px;
+  }
+  #modal-content p.desc {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 15px;
+  }
+  #modal-content p.price,
+  #modal-content p.subprice {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 8px 0;
+  }
+  #modal-content .quantity-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 18px;
+    margin: 15px 0;
+  }
+  #modal-content .quantity-controls button {
+    background-color: #007b8f;
+    border: none;
+    color: white;
+    font-size: 26px;
+    padding: 4px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.3s;
+  }
+  #modal-content .quantity-controls button:hover {
+    background-color: #005f68;
+  }
+  #modal-content .quantity-controls span {
+    font-size: 22px;
+    width: 40px;
+    text-align: center;
+    display: inline-block;
+  }
+  #modal-content button.add-btn {
+    background-color: #007b8f;
+    border: none;
+    color: white;
+    font-size: 18px;
+    padding: 12px 0;
+    border-radius: 10px;
+    width: 100%;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  #modal-content button.add-btn:hover {
+    background-color: #005f68;
+  }
+  #modal-close {
+    position: absolute;
+    top: 12px;
+    left: 15px;
+    font-size: 28px;
+    font-weight: bold;
+    color: #007b8f;
+    cursor: pointer;
+    user-select: none;
+    transition: color 0.3s;
+  }
+  #modal-close:hover {
+    color: #004c4c;
   }
 </style>
 </head>
@@ -180,6 +308,24 @@
   <div class="cart-total" id="total-price">0 د.ع</div>
 </div>
 
+<!-- نافذة المنتج المنبثقة -->
+<div id="modal">
+  <div id="modal-content">
+    <div id="modal-close" title="إغلاق">&times;</div>
+    <img id="modal-img" src="" alt="صورة المنتج" />
+    <h3 id="modal-name"></h3>
+    <p class="desc" id="modal-desc"></p>
+    <p class="price" id="modal-price"></p>
+    <div class="quantity-controls">
+      <button id="modal-qty-minus">-</button>
+      <span id="modal-qty">1</span>
+      <button id="modal-qty-plus">+</button>
+    </div>
+    <p class="subprice" id="modal-subprice">السعر الفرعي: 0 د.ع</p>
+    <button class="add-btn" id="modal-add-btn">أضف إلى السلة</button>
+  </div>
+</div>
+
 <script>
   const products = [
     {
@@ -190,80 +336,125 @@
       image: "https://i.imgur.com/WPq6FcI.jpg"
     },
     {
-      name: "شامبو مغذي",
+      name: "شامبو بزيت الأرغان",
       category: "shampoo",
-      price: 22000,
-      desc: "شامبو مغذي مناسب لجميع أنواع الشعر.",
-      image: "https://i.imgur.com/mBOxP3v.jpg"
+      price: 25000,
+      desc: "شامبو غني بزيت الأرغان لترطيب الشعر وتغذيته.",
+      image: "https://i.imgur.com/UcVTXbF.jpg"
     },
     {
-      name: "زيت الأرجان",
+      name: "زيت اللوز الحلو",
       category: "oil",
-      price: 35000,
-      desc: "زيت الأرجان الطبيعي لترطيب وتغذية الشعر والبشرة.",
-      image: "https://i.imgur.com/T0vB7yT.jpg"
-    },
-    {
-      name: "كريم مرطب",
-      category: "cream",
       price: 18000,
-      desc: "كريم مرطب للبشرة الجافة مع فيتامين E.",
-      image: "https://i.imgur.com/YS0O0V6.jpg"
+      desc: "زيت اللوز الحلو لترطيب البشرة وتحسين مرونتها.",
+      image: "https://i.imgur.com/Sl4REkc.jpg"
     },
     {
-      name: "صابون العسل",
+      name: "كريم الترطيب اليومي",
+      category: "cream",
+      price: 22000,
+      desc: "كريم طبيعي لترطيب البشرة وحمايتها طوال اليوم.",
+      image: "https://i.imgur.com/3CZf2vG.jpg"
+    },
+    {
+      name: "صابون زيت الزيتون",
       category: "soap",
-      price: 15000,
-      desc: "صابون بالعسل الطبيعي لتنظيف وترطيب البشرة.",
-      image: "https://i.imgur.com/dWgqO06.jpg"
-    },
-    {
-      name: "شامبو الأعشاب",
-      category: "shampoo",
-      price: 24000,
-      desc: "شامبو بالأعشاب الطبيعية لتقوية الشعر.",
-      image: "https://i.imgur.com/H2D0Apu.jpg"
+      price: 14000,
+      desc: "صابون بزيت الزيتون النقي لطهارة البشرة.",
+      image: "https://i.imgur.com/3VvP6kV.jpg"
     }
   ];
 
   let cart = {};
 
-  function displayProducts(filter = 'all', searchTerm = '') {
+  // عرض المنتجات وفق الفلتر والبحث
+  function displayProducts(category = 'all', search = '') {
     const list = document.getElementById('product-list');
     list.innerHTML = '';
-    const filtered = products.filter(p => (filter === 'all' || p.category === filter) &&
-      p.name.includes(searchTerm));
-    filtered.forEach((p, index) => {
+    let filtered = products.filter(p => (category === 'all' || p.category === category) && p.name.includes(search));
+    filtered.forEach((product, i) => {
       const prodDiv = document.createElement('div');
-      prodDiv.className = 'product';
+      prodDiv.classList.add('product');
+      prodDiv.dataset.index = i;
+
       prodDiv.innerHTML = `
-        <img src="${p.image}" alt="${p.name}" />
-        <h3>${p.name}</h3>
-        <p class="desc">${p.desc}</p>
-        <p class="price">${p.price.toLocaleString()} د.ع</p>
-        <button class="add-btn" data-index="${index}">أضف إلى السلة</button>
+        <img src="${product.image}" alt="${product.name}" />
+        <h3>${product.name}</h3>
+        <p class="desc">${product.desc}</p>
+        <p class="price">${product.price.toLocaleString()} د.ع</p>
+
+        <div class="quantity-controls">
+          <button class="qty-minus" data-index="${i}">-</button>
+          <span class="qty-num" id="qty-num-${i}">0</span>
+          <button class="qty-plus" data-index="${i}">+</button>
+        </div>
+        <p class="subprice" id="subprice-${i}">السعر الفرعي: 0 د.ع</p>
+        <button class="add-btn" data-index="${i}">أضف إلى السلة</button>
       `;
+
       list.appendChild(prodDiv);
     });
 
-    // ربط زر إضافة للسلة لكل منتج
-    document.querySelectorAll('.add-btn').forEach(btn => {
+    // ربط أزرار التحكم بالكمية
+    document.querySelectorAll('.qty-minus').forEach(btn => {
       btn.onclick = () => {
-        const i = btn.dataset.index;
-        addToCart(i);
+        const idx = btn.dataset.index;
+        if (parseInt(document.getElementById(`qty-num-${idx}`).textContent) > 0) {
+          let newQty = parseInt(document.getElementById(`qty-num-${idx}`).textContent) - 1;
+          document.getElementById(`qty-num-${idx}`).textContent = newQty;
+          updateSubPrice(idx, newQty);
+        }
       };
     });
+    document.querySelectorAll('.qty-plus').forEach(btn => {
+      btn.onclick = () => {
+        const idx = btn.dataset.index;
+        let newQty = parseInt(document.getElementById(`qty-num-${idx}`).textContent) + 1;
+        document.getElementById(`qty-num-${idx}`).textContent = newQty;
+        updateSubPrice(idx, newQty);
+      };
+    });
+
+    // أزرار إضافة إلى السلة من المنتجات
+    document.querySelectorAll('.add-btn').forEach(btn => {
+      btn.onclick = () => {
+        const idx = btn.dataset.index;
+        const qty = parseInt(document.getElementById(`qty-num-${idx}`).textContent);
+        if (qty > 0) {
+          addToCart(idx, qty);
+          alert(`${products[idx].name} أضيف إلى السلة (الكمية: ${qty})`);
+          // إعادة تعيين الكمية بعد الإضافة
+          document.getElementById(`qty-num-${idx}`).textContent = 0;
+          updateSubPrice(idx, 0);
+        } else {
+          alert('يرجى اختيار كمية أكبر من صفر.');
+        }
+      };
+    });
+
   }
 
-  function addToCart(index) {
-    if (cart[index]) {
-      cart[index].quantity++;
+  // تحديث السعر الفرعي حسب الكمية في الصفحة الرئيسية
+  function updateSubPrice(index, qty) {
+    const subpriceEl = document.getElementById(`subprice-${index}`);
+    if (qty > 0) {
+      subpriceEl.textContent = 'السعر الفرعي: ' + (qty * products[index].price).toLocaleString() + ' د.ع';
     } else {
-      cart[index] = { product: products[index], quantity: 1 };
+      subpriceEl.textContent = 'السعر الفرعي: 0 د.ع';
+    }
+  }
+
+  // إضافة أو تحديث المنتج في السلة
+  function addToCart(index, quantityToAdd = 1) {
+    if (cart[index]) {
+      cart[index].quantity += quantityToAdd;
+    } else {
+      cart[index] = { product: products[index], quantity: quantityToAdd };
     }
     updateCartSidebar();
   }
 
+  // تحديث السلة الجانبية (العدد والسعر الكلي)
   function updateCartSidebar() {
     const countEl = document.getElementById('cart-count');
     const totalEl = document.getElementById('total-price');
@@ -276,6 +467,90 @@
     countEl.textContent = totalQty;
     totalEl.textContent = totalPrice.toLocaleString() + ' د.ع';
   }
+
+  // فتح نافذة المنتج مع عرض التفاصيل والتحكم بالكمية
+  const modal = document.getElementById('modal');
+  const modalImg = document.getElementById('modal-img');
+  const modalName = document.getElementById('modal-name');
+  const modalDesc = document.getElementById('modal-desc');
+  const modalPrice = document.getElementById('modal-price');
+  const modalQtySpan = document.getElementById('modal-qty');
+  const modalSubprice = document.getElementById('modal-subprice');
+  const modalAddBtn = document.getElementById('modal-add-btn');
+  const modalCloseBtn = document.getElementById('modal-close');
+
+  let currentModalIndex = null;
+  let modalQty = 1;
+
+  function openModal(index) {
+    currentModalIndex = index;
+    modalQty = 1;
+    const product = products[index];
+    modalImg.src = product.image;
+    modalName.textContent = product.name;
+    modalDesc.textContent = product.desc;
+    modalPrice.textContent = `السعر للوحدة: ${product.price.toLocaleString()} د.ع`;
+    modalQtySpan.textContent = modalQty;
+    modalSubprice.textContent = `السعر الفرعي: ${(product.price * modalQty).toLocaleString()} د.ع`;
+    modal.classList.add('active');
+  }
+
+  function closeModal() {
+    modal.classList.remove('active');
+  }
+
+  document.getElementById('modal-qty-plus').onclick = () => {
+    modalQty++;
+    modalQtySpan.textContent = modalQty;
+    updateModalSubprice();
+  };
+
+  document.getElementById('modal-qty-minus').onclick = () => {
+    if (modalQty > 1) {
+      modalQty--;
+      modalQtySpan.textContent = modalQty;
+      updateModalSubprice();
+    }
+  };
+
+  function updateModalSubprice() {
+    const price = products[currentModalIndex].price;
+    modalSubprice.textContent = `السعر الفرعي: ${(price * modalQty).toLocaleString()} د.ع`;
+  }
+
+  modalAddBtn.onclick = () => {
+    addToCart(currentModalIndex, modalQty);
+    alert(`${products[currentModalIndex].name} أضيف إلى السلة (الكمية: ${modalQty})`);
+    closeModal();
+
+    // إعادة تعيين الكمية في صفحة المنتجات
+    const idx = currentModalIndex;
+    document.getElementById(`qty-num-${idx}`).textContent = 0;
+    updateSubPrice(idx, 0);
+  };
+
+  modalCloseBtn.onclick = closeModal;
+
+  // إغلاق النافذة بالنقر خارج المحتوى
+  modal.onclick = (e) => {
+    if (e.target === modal) closeModal();
+  };
+
+  // عند الضغط على المنتج يفتح النافذة المنبثقة
+  document.getElementById('product-list').addEventListener('click', e => {
+    // تجنب فتح النافذة عند الضغط على أزرار الزيادة والنقصان والإضافة للسلة داخل المنتج نفسه
+    if (
+      e.target.classList.contains('qty-plus') ||
+      e.target.classList.contains('qty-minus') ||
+      e.target.classList.contains('add-btn')
+    ) return;
+
+    let prodDiv = e.target.closest('.product');
+    if (prodDiv) {
+      const idx = prodDiv.dataset.index;
+      openModal(parseInt(idx));
+    }
+  });
 
   // فلترة الأقسام
   const filterButtons = document.querySelectorAll('.filter-btn');
@@ -292,23 +567,15 @@
   // بحث مباشر
   document.getElementById('searchInput').addEventListener('input', () => {
     const activeBtn = document.querySelector('.filter-btn.active');
-    const category = activeBtn ? activeBtn.dataset.category : 'all';
+    const cat = activeBtn ? activeBtn.dataset.category : 'all';
     const searchVal = document.getElementById('searchInput').value.trim();
-    displayProducts(category, searchVal);
+    displayProducts(cat, searchVal);
   });
 
-  // العودة للرئيسية عند الضغط على العنوان
-  document.getElementById('home-link').onclick = () => {
-    window.location.href = 'index.html';
-  };
-
-  // الذهاب إلى صفحة السلة عند الضغط على السلة الجانبية
-  document.getElementById('cart-sidebar').onclick = () => {
-    window.location.href = 'cart.html';
-  };
-
-  // عرض المنتجات بشكل أولي
+  // عند تحميل الصفحة
   displayProducts();
+  updateCartSidebar();
+
 </script>
 
 </body>
