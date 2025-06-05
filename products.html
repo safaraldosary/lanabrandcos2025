@@ -5,12 +5,7 @@
   <meta charset="UTF-8" />
   <title>المنتجات - لانا براند</title>
   <style>
-    body {
-      font-family: Arial;
-      background-color: #f9f9f9;
-      margin: 0;
-    }
-
+    body { font-family: Arial; margin: 0; background-color: #f8f8f8; }
     header, .footer {
       background-color: #007b8f;
       color: white;
@@ -32,81 +27,56 @@
       font-size: 1.2em;
     }
 
-    .products {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-      gap: 30px;
-      padding: 50px;
+    .product-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 30px 10px;
+      gap: 20px;
     }
 
     .product {
-      background: white;
-      padding: 35px;
-      border-radius: 15px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-      text-align: center;
-    }
-
-    .product img {
-      max-width: 100%;
+      background-color: white;
+      padding: 20px;
       border-radius: 10px;
       width: 300px;
-      height: auto;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
 
     .product h3 {
-      margin: 20px 0 10px;
-      font-size: 2.2em;
+      margin-top: 0;
+      font-size: 1.5em;
       color: #007b8f;
     }
 
     .product p {
-      color: #333;
-      font-size: 1.4em;
-      line-height: 1.6;
+      font-size: 1.2em;
+      margin: 10px 0;
     }
 
     .product .price {
-      color: #007b8f;
       font-weight: bold;
-      font-size: 1.6em;
-      margin-top: 15px;
+      color: #333;
+      font-size: 1.3em;
+      margin-bottom: 10px;
     }
 
-    .quantity-control {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 15px;
-      margin-top: 15px;
-    }
-
-    .quantity-btn {
-      padding: 12px 16px;
-      font-size: 1.4em;
-      background-color: #007b8f;
-      color: white;
-      border: none;
-      border-radius: 7px;
-      cursor: pointer;
-    }
-
-    .quantity-display {
-      min-width: 40px;
-      font-size: 1.4em;
-      text-align: center;
-      font-weight: bold;
-    }
-
-    .add-btn {
-      margin-top: 20px;
+    .product button {
       background-color: #28a745;
       color: white;
+      padding: 12px;
       border: none;
-      padding: 15px 25px;
-      border-radius: 7px;
+      border-radius: 6px;
       cursor: pointer;
-      font-size: 1.3em;
+      font-size: 1.2em;
+      margin-top: auto;
+    }
+
+    .product button:hover {
+      background-color: #218838;
     }
   </style>
 </head>
@@ -119,63 +89,44 @@
   <a href="cart.html">سلة المشتريات</a>
 </nav>
 
-<div class="products">
-  <!-- المنتج الأول -->
-  <div class="product">
-    <img src="https://via.placeholder.com/250x250?text=صابون+لبان+الذكر" alt="صابون لبان الذكر">
-    <h3>صابون لبان الذكر</h3>
-    <p>دللي بشرتك بصابون طبيعي خالٍ من المواد الكيميائية وامنحي بشرتك نعومة وانتعاش طبيعي.</p>
-    <p class="price" data-price="5000">5000 د.ع</p>
-    <div class="quantity-control">
-      <button class="quantity-btn" onclick="changeQty(this, -1)">-</button>
-      <span class="quantity-display">1</span>
-      <button class="quantity-btn" onclick="changeQty(this, 1)">+</button>
-    </div>
-    <button class="add-btn" onclick="addToCart(this)">أضف إلى السلة</button>
-  </div>
-
-  <!-- المنتج الثاني -->
-  <div class="product">
-    <img src="https://via.placeholder.com/250x250?text=منتج+2" alt="منتج 2">
-    <h3>منتج 2</h3>
-    <p>وصف مختصر ومميز للمنتج الثاني مع فوائد الاستخدام وطريقة التوصيل.</p>
-    <p class="price" data-price="7000">7000 د.ع</p>
-    <div class="quantity-control">
-      <button class="quantity-btn" onclick="changeQty(this, -1)">-</button>
-      <span class="quantity-display">1</span>
-      <button class="quantity-btn" onclick="changeQty(this, 1)">+</button>
-    </div>
-    <button class="add-btn" onclick="addToCart(this)">أضف إلى السلة</button>
-  </div>
-</div>
+<div class="product-container" id="products"></div>
 
 <div class="footer"><p>© 2025 لانا براند - جميع الحقوق محفوظة</p></div>
 
 <script>
-  function changeQty(button, delta) {
-    const display = button.parentElement.querySelector(".quantity-display");
-    let qty = parseInt(display.textContent) || 1;
-    qty = Math.max(1, qty + delta);
-    display.textContent = qty;
-  }
+  const products = [
+    { name: "منتج 1", description: "وصف المنتج 1", price: 10000 },
+    { name: "منتج 2", description: "وصف المنتج 2", price: 15000 },
+    { name: "منتج 3", description: "وصف المنتج 3", price: 20000 },
+    { name: "منتج 4", description: "وصف المنتج 4", price: 25000 }
+  ];
 
-  function addToCart(button) {
-    const productDiv = button.closest(".product");
-    const name = productDiv.querySelector("h3").textContent;
-    const price = parseInt(productDiv.querySelector(".price").getAttribute("data-price"));
-    const quantity = parseInt(productDiv.querySelector(".quantity-display").textContent);
+  const container = document.getElementById("products");
 
-    let cart = JSON.parse(localStorage.getItem("cart") || "[]");
+  products.forEach(product => {
+    const card = document.createElement("div");
+    card.className = "product";
+    card.innerHTML = `
+      <h3>${product.name}</h3>
+      <p>${product.description}</p>
+      <div class="price">${product.price.toLocaleString()} د.ع</div>
+      <button onclick='addToCart(${JSON.stringify(product)})'>🛒 أضف إلى السلة</button>
+    `;
+    container.appendChild(card);
+  });
 
-    let existing = cart.find(item => item.name === name);
+  function addToCart(product) {
+    const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+    const existing = cart.find(item => item.name === product.name);
+
     if (existing) {
-      existing.quantity += quantity;
+      existing.quantity += 1;
     } else {
-      cart.push({ name, price, quantity });
+      cart.push({ ...product, quantity: 1 });
     }
 
     localStorage.setItem("cart", JSON.stringify(cart));
-    alert(`تمت إضافة ${quantity} من "${name}" إلى السلة.`);
+    alert("تمت إضافة المنتج إلى السلة.");
   }
 </script>
 
