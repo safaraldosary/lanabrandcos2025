@@ -43,56 +43,56 @@
 
     .product {
       background: white;
-      padding: 30px;
+      padding: 35px;
       border-radius: 12px;
       box-shadow: 0 2px 12px rgba(0,0,0,0.1);
       text-align: center;
-      max-width: 500px;
+      max-width: 90%;
       margin: 0 auto;
     }
 
     .product img {
       width: 100%;
-      height: 280px;
+      height: 320px;
       object-fit: cover;
       border-radius: 10px;
     }
 
     .product h3 {
-      margin: 16px 0 8px;
-      font-size: 30px;
+      margin: 18px 0 10px;
+      font-size: 34px;
     }
 
     .product p {
-      font-size: 20px;
+      font-size: 22px;
       color: #444;
-      max-height: 110px;
+      max-height: 130px;
       overflow-y: auto;
       text-align: justify;
-      margin-bottom: 15px;
+      margin-bottom: 18px;
     }
 
     .product .price {
       color: #007b8f;
-      font-size: 24px;
+      font-size: 26px;
       font-weight: bold;
     }
 
     .product .total-price {
-      font-size: 22px;
+      font-size: 24px;
       color: #e67e22;
-      margin-top: 8px;
+      margin-top: 10px;
     }
 
     .add-btn {
       background-color: #007b8f;
       color: white;
-      padding: 14px 22px;
+      padding: 16px 24px;
       border: none;
       border-radius: 6px;
-      font-size: 20px;
+      font-size: 22px;
       cursor: pointer;
-      margin-top: 12px;
+      margin-top: 14px;
     }
 
     .quantity-controls {
@@ -105,14 +105,14 @@
       background-color: #005f6b;
       color: white;
       border: none;
-      padding: 10px 16px;
-      font-size: 26px;
+      padding: 12px 18px;
+      font-size: 28px;
       cursor: pointer;
       border-radius: 6px;
     }
 
     .quantity-controls span {
-      font-size: 22px;
+      font-size: 24px;
       margin: 0 14px;
       width: 40px;
       text-align: center;
@@ -142,6 +142,7 @@
     }
 
     .cart-icon {
+      position: relative;
       background-color: #007b8f;
       padding: 14px;
       border-radius: 50%;
@@ -152,6 +153,17 @@
       height: 90px;
       text-align: center;
       line-height: 60px;
+    }
+
+    .cart-icon span {
+      position: absolute;
+      top: -10px;
+      left: -10px;
+      background: red;
+      color: white;
+      font-size: 20px;
+      padding: 4px 10px;
+      border-radius: 50%;
     }
 
     .footer {
@@ -175,7 +187,7 @@
 <div class="products">
   <!-- منتج -->
   <div class="product" data-name="صابون لبان الذكر" data-price="5000">
-    <img src="https://via.placeholder.com/350x300?text=منتج+1" alt="منتج 1">
+    <img src="https://via.placeholder.com/500x400?text=منتج+1" alt="منتج 1">
     <h3>صابون لبان الذكر</h3>
     <p>وصف طويل للمنتج...</p>
     <p class="price">5000 د.ع</p>
@@ -190,7 +202,7 @@
 
   <!-- منتج 2 -->
   <div class="product" data-name="منتج 2" data-price="35000">
-    <img src="https://via.placeholder.com/350x300?text=منتج+2" alt="منتج 2">
+    <img src="https://via.placeholder.com/500x400?text=منتج+2" alt="منتج 2">
     <h3>منتج 2</h3>
     <p>وصف المنتج 2</p>
     <p class="price">35000 د.ع</p>
@@ -210,7 +222,10 @@
     <div>السعر الكلي</div>
     <div id="products-total">0 د.ع</div>
   </div>
-  <div class="cart-icon" onclick="window.location.href='cart.html'">🛒</div>
+  <div class="cart-icon" onclick="window.location.href='cart.html'">
+    🛒
+    <span id="cart-count">0</span>
+  </div>
 </div>
 
 <div class="footer"><p>© 2025 لانا براند - جميع الحقوق محفوظة</p></div>
@@ -219,6 +234,7 @@
   function updateTotal() {
     const products = document.querySelectorAll(".product");
     let overallTotal = 0;
+    let itemCount = 0;
 
     products.forEach(product => {
       const price = parseInt(product.getAttribute("data-price"));
@@ -228,9 +244,11 @@
       product.querySelector(".total-price").textContent = `الإجمالي: ${total.toLocaleString()} د.ع`;
 
       overallTotal += total;
+      itemCount += qty;
     });
 
     document.getElementById("products-total").textContent = overallTotal.toLocaleString() + " د.ع";
+    document.getElementById("cart-count").textContent = itemCount;
   }
 
   document.querySelectorAll('.product').forEach(product => {
