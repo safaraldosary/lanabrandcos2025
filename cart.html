@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -27,6 +26,9 @@
       margin-bottom: 10px;
       padding: 10px;
       border-radius: 5px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
     form label {
       display: block;
@@ -48,6 +50,15 @@
       margin-top: 20px;
       cursor: pointer;
       font-size: 16px;
+    }
+    .del-btn {
+      background-color: #e74c3c;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 14px;
     }
   </style>
 </head>
@@ -88,15 +99,28 @@
     const cart = JSON.parse(localStorage.getItem("cart") || "[]");
     const list = document.getElementById("cart-list");
     list.innerHTML = "";
+
     if (cart.length === 0) {
       list.innerHTML = "<li>لا توجد منتجات في السلة.</li>";
-    } else {
-      cart.forEach(item => {
-        const li = document.createElement("li");
-        li.textContent = item;
-        list.appendChild(li);
-      });
+      return;
     }
+
+    cart.forEach((item, index) => {
+      const li = document.createElement("li");
+      li.textContent = item;
+
+      const delBtn = document.createElement("button");
+      delBtn.textContent = "❌ حذف";
+      delBtn.classList.add("del-btn");
+      delBtn.onclick = () => {
+        cart.splice(index, 1);
+        localStorage.setItem("cart", JSON.stringify(cart));
+        loadCart(); // إعادة تحميل السلة بعد الحذف
+      };
+
+      li.appendChild(delBtn);
+      list.appendChild(li);
+    });
   }
 
   function submitOrder(event) {
@@ -106,6 +130,11 @@
     const city = document.getElementById("city").value.trim();
     const address = document.getElementById("address").value.trim();
     const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+
+    if (cart.length === 0) {
+      alert("سلة المشتريات فارغة. الرجاء إضافة منتجات قبل تأكيد الطلب.");
+      return;
+    }
 
     let message = `طلب جديد من الزبون:%0A`;
     message += `🧑 الاسم: ${name}%0A`;
@@ -117,7 +146,7 @@
       message += `${index + 1}- ${item}%0A`;
     });
 
-    const phoneNumber = "9647834374662";
+    const phoneNumber = "9647834374662"; // عدل رقم واتساب إذا لزم الأمر
     const whatsappURL = `https://wa.me/${phoneNumber}?text=${message}`;
     window.open(whatsappURL, "_blank");
 
@@ -127,142 +156,6 @@
 
   window.onload = loadCart;
 </script>
-<script>
-  function loadCart() {
-    const cart = JSON.parse(localStorage.getItem("cart") || "[]");
-    const list = document.getElementById("cart-list");
-    list.innerHTML = "";
-
-    if (cart.length === 0) {
-      list.innerHTML = "<li>لا توجد منتجات في السلة.</li>";
-    } else {
-      cart.forEach((item, index) => {
-        const li = document.createElement("li");
-        li.textContent = item + " ";
-
-        const delBtn = document.createElement("button");
-        delBtn.textContent = "❌ حذف";
-        delBtn.style.marginRight = "10px";
-        delBtn.style.backgroundColor = "#e74c3c";
-        delBtn.style.color = "white";
-        delBtn.style.border = "none";
-        delBtn.style.padding = "5px 10px";
-        delBtn.style.borderRadius = "5px";
-        delBtn.style.cursor = "pointer";
-
-        delBtn.onclick = function () {
-          cart.splice(index, 1);
-          localStorage.setItem("cart", JSON.stringify(cart));
-          loadCart(); // إعادة تحميل السلة بعد الحذف
-        };
-
-        li.appendChild(delBtn);
-        list.appendChild(li);
-      });
-    }
-  }
-
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-  <meta charset="UTF-8">
-  <title>سلة المشتريات - لانا براند</title>
-  <style>
-    body { font-family: Arial; margin: 0; background-color: #f8f8f8; }
-    header, .footer {
-      background-color: #007b8f;
-      color: white;
-      text-align: center;
-      padding: 20px;
-    }
-    nav {
-      background-color: #005f6b;
-      padding: 10px;
-      text-align: center;
-    }
-    nav a {
-      color: white;
-      margin: 10px;
-      text-decoration: none;
-      font-weight: bold;
-      font-size: 1.2em;
-    }
-    .cart-container {
-      padding: 30px 10px;
-      max-width: 800px;
-      margin: auto;
-      background-color: white;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    .cart-item {
-      border-bottom: 1px solid #ccc;
-      padding: 10px 0;
-    }
-    .cart-item:last-child {
-      border-bottom: none;
-    }
-    .cart-item h3 {
-      margin: 0;
-      color: #007b8f;
-    }
-    .cart-item .price {
-      font-weight: bold;
-      margin: 5px 0;
-    }
-    .total {
-      font-size: 1.3em;
-      margin-top: 20px;
-      color: #333;
-      font-weight: bold;
-    }
-  </style>
-</head>
-<body>
-
-<header><h1>لانا براند</h1></header>
-<nav>
-  <a href="index.html">الرئيسية</a>
-  <a href="products.html">المنتجات</a>
-  <a href="cart.html">سلة المشتريات</a>
-</nav>
-
-<div class="cart-container" id="cartItems"></div>
-
-<div class="footer"><p>© 2025 لانا براند - جميع الحقوق محفوظة</p></div>
-
-<script>
-  const cartItemsContainer = document.getElementById("cartItems");
-  const cart = JSON.parse(localStorage.getItem("cart") || "[]");
-
-  if (cart.length === 0) {
-    cartItemsContainer.innerHTML = "<p>سلة المشتريات فارغة.</p>";
-  } else {
-    let total = 0;
-
-    cart.forEach(item => {
-      const itemDiv = document.createElement("div");
-      itemDiv.className = "cart-item";
-      const itemTotal = item.price * item.quantity;
-      total += itemTotal;
-
-      itemDiv.innerHTML = `
-        <h3>${item.name}</h3>
-        <p>الكمية: ${item.quantity}</p>
-        <div class="price">السعر: ${item.price.toLocaleString()} × ${item.quantity} = ${itemTotal.toLocaleString()} د.ع</div>
-      `;
-      cartItemsContainer.appendChild(itemDiv);
-    });
-
-    const totalDiv = document.createElement("div");
-    totalDiv.className = "total";
-    totalDiv.textContent = `السعر الكلي: ${total.toLocaleString()} د.ع`;
-    cartItemsContainer.appendChild(totalDiv);
-  }
-</script>
-
-</body>
-</html>
 
 </body>
 </html>
