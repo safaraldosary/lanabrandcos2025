@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>المنتجات - لانا براند</title>
   <style>
     body {
@@ -47,7 +47,7 @@
       border-radius: 12px;
       box-shadow: 0 2px 12px rgba(0,0,0,0.1);
       text-align: center;
-      max-width: 90%;
+      max-width: 98%;
       margin: 0 auto;
     }
 
@@ -60,7 +60,7 @@
 
     .product h3 {
       margin: 18px 0 10px;
-      font-size: 34px;
+      font-size: 36px;
     }
 
     .product p {
@@ -153,17 +153,23 @@
       height: 90px;
       text-align: center;
       line-height: 60px;
+      user-select: none;
     }
 
     .cart-icon span {
       position: absolute;
-      top: -10px;
-      left: -10px;
+      top: -8px;
+      left: -8px;
       background: red;
       color: white;
-      font-size: 20px;
-      padding: 4px 10px;
+      font-size: 18px;
+      padding: 5px 9px;
       border-radius: 50%;
+      min-width: 28px;
+      text-align: center;
+      font-weight: bold;
+      box-sizing: border-box;
+      user-select: none;
     }
 
     .footer {
@@ -171,6 +177,7 @@
       bottom: 0;
       width: 100%;
       font-size: 18px;
+      padding: 12px 0;
     }
   </style>
 </head>
@@ -187,7 +194,7 @@
 <div class="products">
   <!-- منتج -->
   <div class="product" data-name="صابون لبان الذكر" data-price="5000">
-    <img src="https://via.placeholder.com/500x400?text=منتج+1" alt="منتج 1">
+    <img src="https://via.placeholder.com/800x400?text=منتج+1" alt="منتج 1" />
     <h3>صابون لبان الذكر</h3>
     <p>وصف طويل للمنتج...</p>
     <p class="price">5000 د.ع</p>
@@ -202,7 +209,7 @@
 
   <!-- منتج 2 -->
   <div class="product" data-name="منتج 2" data-price="35000">
-    <img src="https://via.placeholder.com/500x400?text=منتج+2" alt="منتج 2">
+    <img src="https://via.placeholder.com/800x400?text=منتج+2" alt="منتج 2" />
     <h3>منتج 2</h3>
     <p>وصف المنتج 2</p>
     <p class="price">35000 د.ع</p>
@@ -231,24 +238,29 @@
 <div class="footer"><p>© 2025 لانا براند - جميع الحقوق محفوظة</p></div>
 
 <script>
-  function updateTotal() {
+  // تحديث حساب الإجمالي وعداد الكميات داخل صفحة المنتجات فقط
+  function updateProductTotals() {
     const products = document.querySelectorAll(".product");
-    let overallTotal = 0;
-    let itemCount = 0;
-
     products.forEach(product => {
       const price = parseInt(product.getAttribute("data-price"));
-      const qty = parseInt(product.querySelector(".quantity").textContent);
+      const qtySpan = product.querySelector(".quantity");
+      const qty = parseInt(qtySpan.textContent);
       const total = price * qty;
-
       product.querySelector(".total-price").textContent = `الإجمالي: ${total.toLocaleString()} د.ع`;
-
-      overallTotal += total;
-      itemCount += qty;
     });
+  }
 
-    document.getElementById("products-total").textContent = overallTotal.toLocaleString() + " د.ع";
-    document.getElementById("cart-count").textContent = itemCount;
+  // تحديث عداد السلة بناء على محتوى localStorage فقط
+  function updateCartCount() {
+    let cart = JSON.parse(localStorage.getItem("cart") || "[]");
+    let count = 0;
+    let totalPrice = 0;
+    cart.forEach(item => {
+      count += item.quantity;
+      totalPrice += item.price * item.quantity;
+    });
+    document.getElementById("cart-count").textContent = count;
+    document.getElementById("products-total").textContent = totalPrice.toLocaleString() + " د.ع";
   }
 
   document.querySelectorAll('.product').forEach(product => {
@@ -259,44 +271,18 @@
 
     decreaseBtn.onclick = () => {
       let current = parseInt(quantitySpan.textContent);
-      if (current > 0) quantitySpan.textContent = current - 1;
-      updateTotal();
+      if (current > 0) {
+        quantitySpan.textContent = current - 1;
+        updateProductTotals();
+      }
     };
 
     increaseBtn.onclick = () => {
       let current = parseInt(quantitySpan.textContent);
       quantitySpan.textContent = current + 1;
-      updateTotal();
+      updateProductTotals();
     };
 
     addBtn.onclick = () => {
       const name = product.getAttribute("data-name");
-      const price = parseInt(product.getAttribute("data-price"));
-      const quantity = parseInt(quantitySpan.textContent);
-
-      if (quantity === 0) {
-        alert("الرجاء تحديد الكمية قبل الإضافة");
-        return;
-      }
-
-      let cart = JSON.parse(localStorage.getItem("cart") || "[]");
-      let existing = cart.find(item => item.name === name);
-
-      if (existing) {
-        existing.quantity += quantity;
-      } else {
-        cart.push({ name, price, quantity });
-      }
-
-      localStorage.setItem("cart", JSON.stringify(cart));
-      alert(`${name} تمت إضافته إلى السلة (الكمية: ${quantity})`);
-      quantitySpan.textContent = 0;
-      updateTotal();
-    };
-  });
-
-  updateTotal();
-</script>
-
-</body>
-</html>
+      const price = parseInt(product.getAttribute("
