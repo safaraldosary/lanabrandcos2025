@@ -2,13 +2,35 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>المنتجات - لانا براند</title>
   <style>
-    body { font-family: Arial; background-color: #f9f9f9; margin: 0; }
-    header, .footer { background-color: #007b8f; color: white; text-align: center; padding: 20px; }
-    nav { background-color: #005f6b; padding: 10px; text-align: center; }
-    nav a { color: white; margin: 10px; text-decoration: none; font-weight: bold; font-size: 1.2em; }
+    body {
+      font-family: Arial;
+      background-color: #f9f9f9;
+      margin: 0;
+      position: relative;
+    }
+
+    header, .footer {
+      background-color: #007b8f;
+      color: white;
+      text-align: center;
+      padding: 20px;
+    }
+
+    nav {
+      background-color: #005f6b;
+      padding: 10px;
+      text-align: center;
+    }
+
+    nav a {
+      color: white;
+      margin: 10px;
+      text-decoration: none;
+      font-weight: bold;
+    }
 
     .products {
       display: grid;
@@ -23,7 +45,6 @@
       border-radius: 10px;
       box-shadow: 0 2px 10px rgba(0,0,0,0.1);
       text-align: center;
-      position: relative;
     }
 
     .product img {
@@ -39,7 +60,7 @@
       font-weight: bold;
     }
 
-    .product p.description {
+    .product p {
       color: #444;
       font-size: 18px;
       line-height: 1.5;
@@ -49,33 +70,22 @@
       margin-bottom: 15px;
     }
 
-    .price {
+    .product .price {
       color: #007b8f;
       font-weight: bold;
       font-size: 22px;
       margin-bottom: 15px;
     }
 
-    .total-price {
-      color: #d35400;
-      font-weight: bold;
-      font-size: 20px;
-      margin-top: 8px;
-    }
-
     .add-btn {
       background-color: #007b8f;
       color: white;
       border: none;
-      padding: 14px 24px;
+      padding: 12px 20px;
       border-radius: 5px;
       cursor: pointer;
-      font-size: 20px;
+      font-size: 18px;
       margin-top: 10px;
-      transition: background-color 0.3s ease;
-    }
-    .add-btn:hover {
-      background-color: #005f6b;
     }
 
     .quantity-controls {
@@ -89,81 +99,47 @@
       background-color: #005f6b;
       color: white;
       border: none;
-      padding: 8px 16px;
-      font-size: 22px;
+      padding: 6px 12px;
+      font-size: 20px;
       cursor: pointer;
       border-radius: 5px;
-      transition: background-color 0.3s ease;
-    }
-    .quantity-controls button:hover {
-      background-color: #004a50;
     }
 
     .quantity-controls span {
-      margin: 0 15px;
-      font-size: 20px;
-      min-width: 40px;
+      margin: 0 10px;
+      font-size: 18px;
+      min-width: 30px;
       text-align: center;
       display: inline-block;
     }
 
-    /* أيقونة سلة التسوق الجانبية */
-    #cart-icon {
+    .cart-icon {
       position: fixed;
-      top: 50%;
-      right: 20px;
-      transform: translateY(-50%);
+      top: 100px;
+      left: 20px;
       background-color: #007b8f;
       color: white;
-      width: 60px;
-      height: 60px;
       border-radius: 50%;
+      width: 70px;
+      height: 70px;
+      font-size: 36px;
       display: flex;
-      justify-content: center;
+      flex-direction: column;
       align-items: center;
+      justify-content: center;
       cursor: pointer;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
       z-index: 1000;
-      font-size: 28px;
-      transition: background-color 0.3s ease;
-      text-decoration: none;
-    }
-    #cart-icon:hover {
-      background-color: #005f6b;
-    }
-    /* شارة عدد المنتجات فوق الأيقونة */
-    #cart-count {
-      position: absolute;
-      top: 5px;
-      right: 5px;
-      background: #e74c3c;
-      color: white;
-      border-radius: 50%;
-      font-size: 16px;
-      width: 22px;
-      height: 22px;
-      line-height: 22px;
-      text-align: center;
-      font-weight: bold;
-      pointer-events: none;
-      user-select: none;
     }
 
-    /* السعر الإجمالي الكلي بجانب الأيقونة */
-    #total-cart-price {
-      position: fixed;
-      top: 60%;
-      right: 100px;
-      transform: translateY(-50%);
-      background-color: #f1f1f1;
-      padding: 10px 20px;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-      font-size: 22px;
-      font-weight: bold;
-      color: #007b8f;
-      z-index: 1000;
-      white-space: nowrap;
+    .cart-icon span {
+      font-size: 13px;
+      text-align: center;
+      line-height: 1.2;
+    }
+
+    .footer {
+      margin-top: 40px;
     }
   </style>
 </head>
@@ -176,19 +152,23 @@
   <a href="cart.html">سلة المشتريات</a>
 </nav>
 
-<div class="products">
+<!-- أيقونة السلة -->
+<div class="cart-icon" onclick="goToCart()">
+  <span>السعر الإجمالي</span>
+  <strong id="products-total">0</strong>
+</div>
 
-  <!-- منتج 1 -->
+<div class="products">
+  <!-- منتج -->
   <div class="product" data-name="صابون لبان الذكر" data-price="5000">
-    <img src="https://via.placeholder.com/350x300?text=منتج+1" alt="صابون لبان الذكر" />
+    <img src="https://via.placeholder.com/350x300?text=منتج+1" alt="منتج 1">
     <h3>صابون لبان الذكر</h3>
-    <p class="description">وصف طويل للمنتج...</p>
-    <p class="price">السعر الفردي: 5000 د.ع</p>
-    <p class="total-price">السعر الإجمالي: 5000 د.ع</p>
+    <p>وصف طويل للمنتج...</p>
+    <p class="price">5000 د.ع</p>
 
     <div class="quantity-controls">
       <button class="decrease">-</button>
-      <span class="quantity">1</span>
+      <span class="quantity">0</span>
       <button class="increase">+</button>
     </div>
 
@@ -197,64 +177,35 @@
 
   <!-- منتج 2 -->
   <div class="product" data-name="منتج 2" data-price="35000">
-    <img src="https://via.placeholder.com/350x300?text=منتج+2" alt="منتج 2" />
+    <img src="https://via.placeholder.com/350x300?text=منتج+2" alt="منتج 2">
     <h3>منتج 2</h3>
-    <p class="description">وصف المنتج 2</p>
-    <p class="price">السعر الفردي: 35000 د.ع</p>
-    <p class="total-price">السعر الإجمالي: 35000 د.ع</p>
+    <p>وصف المنتج 2</p>
+    <p class="price">35000 د.ع</p>
 
     <div class="quantity-controls">
       <button class="decrease">-</button>
-      <span class="quantity">1</span>
+      <span class="quantity">0</span>
       <button class="increase">+</button>
     </div>
 
     <button class="add-btn">أضف إلى السلة</button>
   </div>
-
 </div>
 
-<!-- أيقونة سلة التسوق الجانبية مع شارة العدد -->
-<a href="cart.html" id="cart-icon" title="اذهب إلى سلة المشتريات">
-  🛒
-  <span id="cart-count">0</span>
-</a>
-
-<!-- السعر الإجمالي الكلي بجانب الأيقونة -->
-<div id="total-cart-price">الإجمالي الكلي: 0 د.ع</div>
+<div class="footer"><p>© 2025 لانا براند - جميع الحقوق محفوظة</p></div>
 
 <script>
-  // تحديث السعر الإجمالي للمنتج حسب الكمية
-  function updateProductTotal(product) {
-    const price = parseInt(product.getAttribute('data-price'));
-    const quantity = parseInt(product.querySelector('.quantity').textContent);
-    const totalPriceElem = product.querySelector('.total-price');
-    const total = price * quantity;
-    totalPriceElem.textContent = `السعر الإجمالي: ${total.toLocaleString()} د.ع`;
-    return total;
-  }
-
-  // تحديث العدد الإجمالي والسعر الإجمالي الكلي في السلة من localStorage
-  function updateCartInfo() {
-    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-    let totalQuantity = 0;
-    let totalPrice = 0;
-    cart.forEach(item => {
-      totalQuantity += item.quantity;
-      totalPrice += item.price * item.quantity;
-    });
-    document.getElementById('cart-count').textContent = totalQuantity;
-    document.getElementById('total-cart-price').textContent = `الإجمالي الكلي: ${totalPrice.toLocaleString()} د.ع`;
-  }
-
-  // تحديث السعر الإجمالي لكل المنتجات في الصفحة (مجموع كل أسعار الكميات المعروضة)
-  function updateAllProductsTotal() {
+  function loadTotal() {
     const products = document.querySelectorAll('.product');
-    let sum = 0;
-    products.forEach(p => {
-      sum += updateProductTotal(p);
+    let total = 0;
+
+    products.forEach(product => {
+      const price = parseInt(product.getAttribute('data-price'));
+      const quantity = parseInt(product.querySelector('.quantity').textContent);
+      total += price * quantity;
     });
-    document.getElementById('total-cart-price').textContent = `الإجمالي الكلي: ${sum.toLocaleString()} د.ع`;
+
+    document.getElementById("products-total").textContent = `${total.toLocaleString()} د.ع`;
   }
 
   document.querySelectorAll('.product').forEach(product => {
@@ -265,24 +216,25 @@
 
     decreaseBtn.onclick = () => {
       let current = parseInt(quantitySpan.textContent);
-      if (current > 1) {
-        quantitySpan.textContent = current - 1;
-        updateProductTotal(product);
-        updateAllProductsTotal();
-      }
+      if (current > 0) quantitySpan.textContent = current - 1;
+      loadTotal();
     };
 
     increaseBtn.onclick = () => {
       let current = parseInt(quantitySpan.textContent);
       quantitySpan.textContent = current + 1;
-      updateProductTotal(product);
-      updateAllProductsTotal();
+      loadTotal();
     };
 
     addBtn.onclick = () => {
       const name = product.getAttribute("data-name");
       const price = parseInt(product.getAttribute("data-price"));
       const quantity = parseInt(quantitySpan.textContent);
+
+      if (quantity === 0) {
+        alert("الرجاء اختيار كمية أكبر من 0");
+        return;
+      }
 
       let cart = JSON.parse(localStorage.getItem("cart") || "[]");
       let existing = cart.find(item => item.name === name);
@@ -295,16 +247,17 @@
 
       localStorage.setItem("cart", JSON.stringify(cart));
       alert(`${name} تمت إضافته إلى السلة (الكمية: ${quantity})`);
-      updateCartInfo();
+      quantitySpan.textContent = 0;
+      loadTotal();
     };
   });
 
-  // أول تحميل للصفحة
-  updateAllProductsTotal();
-  updateCartInfo();
-</script>
+  function goToCart() {
+    window.location.href = "cart.html";
+  }
 
-<div class="footer"><p>© 2025 لانا براند - جميع الحقوق محفوظة</p></div>
+  loadTotal();
+</script>
 
 </body>
 </html>
