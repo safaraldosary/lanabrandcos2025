@@ -9,36 +9,36 @@
       font-family: Arial;
       background-color: #f9f9f9;
       margin: 0;
-      padding-bottom: 200px;
+      padding-bottom: 250px;
     }
 
     header, .footer {
       background-color: #007b8f;
       color: white;
       text-align: center;
-      padding: 25px;
-      font-size: 22px;
+      padding: 30px;
+      font-size: 24px;
     }
 
     nav {
       background-color: #005f6b;
-      padding: 15px;
+      padding: 18px;
       text-align: center;
     }
 
     nav a {
       color: white;
-      margin: 15px;
+      margin: 20px;
       text-decoration: none;
       font-weight: bold;
-      font-size: 20px;
+      font-size: 22px;
     }
 
     .products {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+      display: flex;
+      flex-direction: column;
       gap: 40px;
-      padding: 50px;
+      padding: 50px 20px;
     }
 
     .product {
@@ -47,36 +47,41 @@
       border-radius: 12px;
       box-shadow: 0 2px 12px rgba(0,0,0,0.1);
       text-align: center;
-      height: 500px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
+      max-width: 500px;
+      margin: 0 auto;
     }
 
     .product img {
       width: 100%;
-      height: 250px;
+      height: 280px;
       object-fit: cover;
       border-radius: 10px;
     }
 
     .product h3 {
-      margin: 12px 0;
-      font-size: 28px;
+      margin: 16px 0 8px;
+      font-size: 30px;
     }
 
     .product p {
-      font-size: 18px;
+      font-size: 20px;
       color: #444;
+      max-height: 110px;
       overflow-y: auto;
-      max-height: 100px;
       text-align: justify;
+      margin-bottom: 15px;
     }
 
     .product .price {
       color: #007b8f;
       font-size: 24px;
       font-weight: bold;
+    }
+
+    .product .total-price {
+      font-size: 22px;
+      color: #e67e22;
+      margin-top: 8px;
     }
 
     .add-btn {
@@ -87,12 +92,13 @@
       border-radius: 6px;
       font-size: 20px;
       cursor: pointer;
+      margin-top: 12px;
     }
 
     .quantity-controls {
       display: inline-flex;
       align-items: center;
-      margin-top: 12px;
+      margin-top: 14px;
     }
 
     .quantity-controls button {
@@ -100,15 +106,15 @@
       color: white;
       border: none;
       padding: 10px 16px;
-      font-size: 24px;
+      font-size: 26px;
       cursor: pointer;
       border-radius: 6px;
     }
 
     .quantity-controls span {
-      font-size: 20px;
-      margin: 0 12px;
-      width: 35px;
+      font-size: 22px;
+      margin: 0 14px;
+      width: 40px;
       text-align: center;
       display: inline-block;
     }
@@ -149,10 +155,10 @@
     }
 
     .footer {
-      margin-top: 100px;
       position: fixed;
       bottom: 0;
       width: 100%;
+      font-size: 18px;
     }
   </style>
 </head>
@@ -173,6 +179,7 @@
     <h3>صابون لبان الذكر</h3>
     <p>وصف طويل للمنتج...</p>
     <p class="price">5000 د.ع</p>
+    <p class="total-price">الإجمالي: 0 د.ع</p>
     <div class="quantity-controls">
       <button class="decrease">-</button>
       <span class="quantity">0</span>
@@ -187,6 +194,7 @@
     <h3>منتج 2</h3>
     <p>وصف المنتج 2</p>
     <p class="price">35000 د.ع</p>
+    <p class="total-price">الإجمالي: 0 د.ع</p>
     <div class="quantity-controls">
       <button class="decrease">-</button>
       <span class="quantity">0</span>
@@ -210,13 +218,19 @@
 <script>
   function updateTotal() {
     const products = document.querySelectorAll(".product");
-    let total = 0;
+    let overallTotal = 0;
+
     products.forEach(product => {
       const price = parseInt(product.getAttribute("data-price"));
       const qty = parseInt(product.querySelector(".quantity").textContent);
-      total += price * qty;
+      const total = price * qty;
+
+      product.querySelector(".total-price").textContent = `الإجمالي: ${total.toLocaleString()} د.ع`;
+
+      overallTotal += total;
     });
-    document.getElementById("products-total").textContent = total.toLocaleString() + " د.ع";
+
+    document.getElementById("products-total").textContent = overallTotal.toLocaleString() + " د.ع";
   }
 
   document.querySelectorAll('.product').forEach(product => {
