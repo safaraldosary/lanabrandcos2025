@@ -17,16 +17,20 @@
       align-items: center;
       gap: 10px;
     }
-    .social-links a {
-      color: white;
-      margin: 0 10px;
-      text-decoration: none;
-      font-weight: bold;
-      font-size: 1.1rem;
-    }
     .social-links {
       display: flex;
       justify-content: center;
+      gap: 20px;
+    }
+    .social-links a svg {
+      fill: white;
+      width: 32px;
+      height: 32px;
+      transition: fill 0.3s;
+      vertical-align: middle;
+    }
+    .social-links a:hover svg {
+      fill: #00aced; /* تغيير اللون عند المرور بالفأرة */
     }
   </style>
 </head>
@@ -47,11 +51,21 @@
 </div>
 
 <div class="footer">
-    <p>تابعنا على: 
-      <a href="https://www.instagram.com/lana_brand_organic" target="_blank">إنستغرام</a> |
-      <a href="https://www.facebook.com/share/19vL8gUYdh/?mibextid=wwXIfr" target="_blank">فيسبوك</a>
-    </p>
   <p>© 2025 لانا براند - جميع الحقوق محفوظة</p>
+  <div class="social-links">
+    <a href="https://www.facebook.com/share/18oaxcqViq/?mibextid=wwXIfr" target="_blank" rel="noopener noreferrer" aria-label="فيسبوك">
+      <!-- أيقونة فيسبوك SVG -->
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" >
+        <path d="M22.675 0h-21.35C.597 0 0 .597 0 1.333v21.333C0 23.403.597 24 1.325 24h11.495v-9.294H9.692v-3.622h3.128V8.413c0-3.1 1.894-4.788 4.659-4.788 1.325 0 2.466.099 2.797.143v3.24l-1.918.001c-1.504 0-1.795.715-1.795 1.764v2.312h3.587l-.467 3.622h-3.12V24h6.116c.73 0 1.325-.597 1.325-1.334V1.333C24 .597 23.403 0 22.675 0z"/>
+      </svg>
+    </a>
+    <a href="https://www.instagram.com/lana_brand_organic" target="_blank" rel="noopener noreferrer" aria-label="إنستغرام">
+      <!-- أيقونة إنستغرام SVG -->
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" >
+        <path d="M7.75 2h8.5C19.55 2 22 4.45 22 7.75v8.5c0 3.3-2.45 5.75-5.75 5.75h-8.5C4.45 22 2 19.55 2 16.25v-8.5C2 4.45 4.45 2 7.75 2zm0 2C5.96 4 4.5 5.46 4.5 7.25v9.5c0 1.79 1.46 3.25 3.25 3.25h8.5c1.79 0 3.25-1.46 3.25-3.25v-9.5c0-1.79-1.46-3.25-3.25-3.25h-8.5zM12 7a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6zm4.75-3.5a1.25 1.25 0 1 1 0 2.5 1.25 1.25 0 0 1 0-2.5z"/>
+      </svg>
+    </a>
+  </div>
 </div>
 
 </body>
