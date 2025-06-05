@@ -1,22 +1,118 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>تواصل معنا - لانا براند</title>
   <style>
-    body { font-family: Arial; background-color: #f9f9f9; margin: 0; }
-    header, .footer { background-color: #007b8f; color: white; text-align: center; padding: 20px; }
-    nav { background-color: #005f6b; padding: 10px; text-align: center; }
-    nav a { color: white; margin: 10px; text-decoration: none; font-weight: bold; }
-    .content { padding: 30px; max-width: 600px; margin: auto; background-color: white; border-radius: 8px; box-shadow: 0 0 8px rgba(0,0,0,0.1); }
-    label { display: block; margin: 10px 0 5px; }
-    input, textarea { width: 100%; padding: 10px; border-radius: 5px; border: 1px solid #ccc; }
-    button { background-color: #007b8f; color: white; padding: 10px 20px; border: none; border-radius: 5px; margin-top: 15px; cursor: pointer; }
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      margin: 0;
+      font-size: 22px;
+      direction: rtl;
+    }
+    header {
+      background-color: #007b8f;
+      color: white;
+      text-align: center;
+      padding: 45px 25px;
+      font-size: 48px;
+      font-weight: bold;
+      letter-spacing: 1.5px;
+      cursor: default;
+      user-select: none;
+    }
+    nav {
+      background-color: #005f6b;
+      padding: 18px 12px;
+      text-align: center;
+      font-size: 32px;
+      font-weight: bold;
+      color: white;
+    }
+    nav a {
+      color: white;
+      margin: 20px 40px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 32px;
+      transition: color 0.3s ease;
+    }
+    nav a:hover {
+      color: #a0e7e5;
+    }
+
+    .content {
+      padding: 50px 40px;
+      max-width: 600px;
+      margin: auto;
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 0 12px rgba(0,0,0,0.1);
+      font-size: 22px;
+    }
+
+    label {
+      display: block;
+      margin-top: 25px;
+      font-weight: bold;
+      font-size: 1.3em;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 18px;
+      border-radius: 12px;
+      border: 1.5px solid #ccc;
+      font-size: 1.3em;
+      margin-top: 10px;
+      box-sizing: border-box;
+      resize: vertical;
+      height: 56px;
+    }
+    textarea {
+      height: 120px;
+    }
+
+    button {
+      background-color: #007b8f;
+      color: white;
+      padding: 22px 28px;
+      border: none;
+      border-radius: 12px;
+      margin-top: 35px;
+      cursor: pointer;
+      font-size: 1.8em;
+      width: 100%;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #005f6b;
+    }
+
+    .contact-info {
+      font-size: 1.4em;
+      margin-bottom: 30px;
+      line-height: 1.6;
+    }
+
+    /* Footer */
+    .footer {
+      background-color: #007b8f;
+      color: white;
+      padding: 30px 40px;
+      font-size: 26px;
+      font-weight: bold;
+      letter-spacing: 1.2px;
+      margin-top: 50px;
+      text-align: center;
+    }
   </style>
 </head>
 <body>
 
-<header><h1>لانا براند</h1></header>
+<header>لانا براند</header>
+
 <nav>
   <a href="index.html">الرئيسية</a>
   <a href="about.html">من نحن</a>
@@ -25,19 +121,60 @@
 
 <div class="content">
   <h2>تواصل معنا</h2>
-  <p>📧 البريد الإلكتروني: safarnajy2007@gmail.com<br>📞 الهاتف: 07834374662</p>
-  <form>
-    <label>الاسم</label>
-    <input type="text" placeholder="اكتب اسمك">
-    <label>البريد الإلكتروني</label>
-    <input type="email" placeholder="بريدك الإلكتروني">
-    <label>رسالتك</label>
-    <textarea rows="5" placeholder="اكتب رسالتك هنا"></textarea>
+  <p class="contact-info">📧 البريد الإلكتروني: safarnajy2007@gmail.com<br>📞 الهاتف: 07834374662</p>
+  <form id="contactForm">
+    <label for="name">الاسم</label>
+    <input type="text" id="name" name="name" placeholder="اكتب اسمك" required />
+    
+    <label for="email">البريد الإلكتروني</label>
+    <input type="email" id="email" name="email" placeholder="بريدك الإلكتروني" required />
+    
+    <label for="message">رسالتك</label>
+    <textarea id="message" name="message" placeholder="اكتب رسالتك هنا" required></textarea>
+    
     <button type="submit">إرسال</button>
   </form>
 </div>
 
-<div class="footer"><p>© 2025 لانا براند - جميع الحقوق محفوظة</p></div>
+<div class="footer">© 2025 لانا براند - جميع الحقوق محفوظة</div>
+
+<!-- إضافة سكريبت EmailJS -->
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+<script>
+  (function(){
+    emailjs.init("YOUR_PUBLIC_KEY"); // استبدل YOUR_PUBLIC_KEY بمفتاح API من حسابك في EmailJS
+  })();
+
+  const form = document.getElementById("contactForm");
+
+  form.addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    const name = form.name.value.trim();
+    const email = form.email.value.trim();
+    const message = form.message.value.trim();
+
+    if (!name || !email || !message) {
+      alert("يرجى ملء جميع الحقول.");
+      return;
+    }
+
+    const templateParams = {
+      from_name: name,
+      from_email: email,
+      message: message
+    };
+
+    emailjs.send("YOUR_SERVICE_ID", "YOUR_TEMPLATE_ID", templateParams)
+      .then(function(response) {
+        alert("تم إرسال رسالتك بنجاح. شكراً لتواصلك معنا!");
+        form.reset();
+      }, function(error) {
+        alert("حدث خطأ أثناء الإرسال، حاول مرة أخرى.");
+        console.error('FAILED...', error);
+      });
+  });
+</script>
 
 </body>
 </html>
