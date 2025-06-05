@@ -2,305 +2,293 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <title>منتجات لانا براند</title>
+  <meta charset="UTF-8">
+  <title>المنتجات - لانا براند</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f9f9f9;
-      margin: 0;
-      padding-bottom: 250px;
-    }
+    body { font-family: Arial; background-color: #f9f9f9; margin: 0; }
 
-    header, footer {
+    header, .footer {
       background-color: #007b8f;
       color: white;
       text-align: center;
-      padding: 30px;
-      font-size: 28px;
+      padding: 20px;
     }
 
     nav {
       background-color: #005f6b;
-      padding: 18px;
+      padding: 10px;
       text-align: center;
     }
 
     nav a {
       color: white;
-      margin: 20px;
+      margin: 10px;
       text-decoration: none;
       font-weight: bold;
-      font-size: 22px;
+      font-size: 1.2em;
     }
 
     .products {
       display: flex;
       flex-direction: column;
-      gap: 50px;
-      padding: 60px 20px;
+      gap: 30px;
+      padding: 40px;
+      align-items: center;
     }
 
     .product {
       background: white;
-      padding: 40px;
-      border-radius: 16px;
-      box-shadow: 0 2px 16px rgba(0,0,0,0.15);
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
       text-align: center;
       width: 90%;
-      margin: 0 auto;
+      max-width: 700px;
     }
 
     .product img {
       width: 100%;
-      height: 500px;
+      border-radius: 8px;
+      height: 350px;
       object-fit: cover;
-      border-radius: 12px;
     }
 
     .product h3 {
-      margin: 25px 0 15px;
-      font-size: 40px;
+      margin: 15px 0;
+      font-size: 30px;
+      font-weight: bold;
     }
 
     .product p {
-      font-size: 26px;
       color: #444;
-      max-height: 160px;
-      overflow-y: auto;
+      font-size: 20px;
+      line-height: 1.6;
       text-align: justify;
-      margin-bottom: 22px;
+      max-height: 200px;
+      overflow-y: auto;
+      margin-bottom: 15px;
     }
 
     .product .price {
       color: #007b8f;
-      font-size: 32px;
       font-weight: bold;
+      font-size: 24px;
+      margin-bottom: 10px;
     }
 
-    .product .total-price {
-      font-size: 28px;
-      color: #e67e22;
-      margin-top: 14px;
+    .product .total-line {
+      font-size: 20px;
+      margin-bottom: 15px;
+      color: #000;
     }
 
     .add-btn {
       background-color: #007b8f;
       color: white;
-      padding: 20px 30px;
       border: none;
-      border-radius: 8px;
-      font-size: 26px;
+      padding: 14px 24px;
+      border-radius: 5px;
       cursor: pointer;
-      margin-top: 20px;
+      font-size: 20px;
+      margin-top: 10px;
     }
 
     .quantity-controls {
       display: inline-flex;
       align-items: center;
-      margin-top: 18px;
+      margin-left: 15px;
+      user-select: none;
     }
 
     .quantity-controls button {
       background-color: #005f6b;
       color: white;
       border: none;
-      padding: 16px 22px;
-      font-size: 32px;
+      padding: 8px 14px;
+      font-size: 22px;
       cursor: pointer;
-      border-radius: 8px;
-      user-select: none;
+      border-radius: 5px;
     }
 
     .quantity-controls span {
-      font-size: 28px;
-      margin: 0 18px;
-      width: 50px;
+      margin: 0 12px;
+      font-size: 20px;
+      min-width: 30px;
       text-align: center;
       display: inline-block;
-      user-select: none;
-    }
-
-    .cart-sidebar {
-      position: fixed;
-      right: 0;
-      top: 50%;
-      transform: translateY(-50%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      z-index: 999;
-    }
-
-    .cart-total {
-      background-color: #007b8f;
-      color: white;
-      padding: 16px 14px;
-      font-size: 26px;
-      border-radius: 14px;
-      margin-bottom: 15px;
-      text-align: center;
-      width: 160px;
-      user-select: none;
     }
 
     .cart-icon {
-      position: relative;
-      background-color: #007b8f;
-      padding: 18px;
-      border-radius: 50%;
-      font-size: 50px;
-      color: white;
-      cursor: pointer;
-      width: 100px;
-      height: 100px;
-      text-align: center;
-      user-select: none;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .cart-icon span {
-      position: absolute;
-      top: -10px;
-      left: -10px;
-      background: red;
-      color: white;
-      font-size: 20px;
-      padding: 6px 12px;
-      border-radius: 50%;
-      font-weight: bold;
-      min-width: 30px;
-      text-align: center;
-    }
-
-    footer {
       position: fixed;
-      bottom: 0;
-      width: 100%;
-      font-size: 20px;
-      padding: 14px 0;
+      top: 50%;
+      right: 20px;
+      transform: translateY(-50%);
       background-color: #007b8f;
+      border-radius: 15px;
+      padding: 10px;
       color: white;
+      font-size: 28px;
+      cursor: pointer;
+      z-index: 999;
       text-align: center;
+    }
+
+    .cart-count {
+      background-color: red;
+      color: white;
+      font-size: 18px;
+      width: 28px;
+      height: 28px;
+      display: inline-block;
+      line-height: 28px;
+      border-radius: 50%;
+      margin-top: 8px;
+    }
+
+    .total-box {
+      position: fixed;
+      top: 50%;
+      right: 90px;
+      transform: translateY(-50%);
+      text-align: center;
+      z-index: 998;
+    }
+
+    .total-box .label {
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    .total-box .amount {
+      background-color: #ddd;
+      padding: 6px 12px;
+      font-size: 20px;
+      border-radius: 8px;
+      margin-top: 5px;
+    }
+
+    .footer {
+      margin-top: 100px;
     }
   </style>
 </head>
 <body>
 
-<header>
-  <h1>لانا براند</h1>
-</header>
+<header><h1>لانا براند</h1></header>
 
 <nav>
-  <a href="#">الرئيسية</a>
-  <a href="#">المنتجات</a>
+  <a href="index.html">الرئيسية</a>
+  <a href="products.html">المنتجات</a>
   <a href="cart.html">سلة المشتريات</a>
 </nav>
 
 <div class="products">
+
   <div class="product" data-name="صابون لبان الذكر" data-price="5000">
-    <img src="https://via.placeholder.com/800x500?text=صابون+لبان+الذكر" alt="صابون لبان الذكر" />
+    <img src="https://via.placeholder.com/700x350?text=منتج+1" alt="منتج 1">
     <h3>صابون لبان الذكر</h3>
-    <p>وصف المنتج هنا...</p>
+    <p>وصف طويل للمنتج...</p>
     <p class="price">5000 د.ع</p>
-    <p class="total-price">الإجمالي: 0 د.ع</p>
+    <p class="total-line">السعر الكلي: 0 د.ع</p>
+
     <div class="quantity-controls">
       <button class="decrease">-</button>
       <span class="quantity">0</span>
       <button class="increase">+</button>
     </div>
+
     <button class="add-btn">أضف إلى السلة</button>
   </div>
+
+  <div class="product" data-name="منتج 2" data-price="35000">
+    <img src="https://via.placeholder.com/700x350?text=منتج+2" alt="منتج 2">
+    <h3>منتج 2</h3>
+    <p>وصف المنتج 2</p>
+    <p class="price">35000 د.ع</p>
+    <p class="total-line">السعر الكلي: 0 د.ع</p>
+
+    <div class="quantity-controls">
+      <button class="decrease">-</button>
+      <span class="quantity">0</span>
+      <button class="increase">+</button>
+    </div>
+
+    <button class="add-btn">أضف إلى السلة</button>
+  </div>
+
 </div>
 
-<div class="cart-sidebar">
-  <div class="cart-total">
-    <div>السعر الكلي</div>
-    <div id="products-total">0 د.ع</div>
-  </div>
-  <div class="cart-icon" onclick="window.location.href='cart.html'">
-    🛒
-    <span id="cart-count">0</span>
-  </div>
+<div class="total-box">
+  <div class="label">السعر الكلي</div>
+  <div class="amount" id="products-total">0 د.ع</div>
 </div>
 
-<footer>
-  <p>© 2025 لانا براند - جميع الحقوق محفوظة</p>
-</footer>
+<div class="cart-icon" onclick="window.location.href='cart.html'">
+  🛒
+  <div class="cart-count" id="cart-count">0</div>
+</div>
+
+<div class="footer"><p>© 2025 لانا براند - جميع الحقوق محفوظة</p></div>
 
 <script>
-  function updateProductTotals() {
-    document.querySelectorAll('.product').forEach(product => {
-      const price = Number(product.getAttribute('data-price'));
-      const qty = Number(product.querySelector('.quantity').textContent);
-      const total = price * qty;
-      product.querySelector('.total-price').textContent = `الإجمالي: ${total.toLocaleString()} د.ع`;
-    });
+  function loadTotal() {
+    const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+    let total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    document.getElementById("products-total").textContent = `${total.toLocaleString()} د.ع`;
+    document.getElementById("cart-count").textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
   }
 
-  function updateCartCount() {
-    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-    let count = 0;
-    let totalPrice = 0;
-    cart.forEach(item => {
-      count += item.quantity;
-      totalPrice += item.price * item.quantity;
-    });
-    document.getElementById('cart-count').textContent = count;
-    document.getElementById('products-total').textContent = totalPrice.toLocaleString() + ' د.ع';
-  }
+  document.querySelectorAll('.product').forEach(product => {
+    const decreaseBtn = product.querySelector('.decrease');
+    const increaseBtn = product.querySelector('.increase');
+    const quantitySpan = product.querySelector('.quantity');
+    const addBtn = product.querySelector('.add-btn');
+    const totalLine = product.querySelector('.total-line');
 
-  function addToCart(name, price, quantity) {
-    if (quantity <= 0) return;
+    decreaseBtn.onclick = () => {
+      let current = parseInt(quantitySpan.textContent);
+      if (current > 0) {
+        quantitySpan.textContent = current - 1;
+        updateProductTotal();
+      }
+    };
 
-    let cart = JSON.parse(localStorage.getItem('cart') || '[]');
-    const index = cart.findIndex(item => item.name === name);
-    if (index >= 0) {
-      cart[index].quantity += quantity;
-    } else {
-      cart.push({ name, price, quantity });
+    increaseBtn.onclick = () => {
+      let current = parseInt(quantitySpan.textContent);
+      quantitySpan.textContent = current + 1;
+      updateProductTotal();
+    };
+
+    addBtn.onclick = () => {
+      const name = product.getAttribute("data-name");
+      const price = parseInt(product.getAttribute("data-price"));
+      const quantity = parseInt(quantitySpan.textContent);
+      if (quantity === 0) return;
+
+      let cart = JSON.parse(localStorage.getItem("cart") || "[]");
+      let existing = cart.find(item => item.name === name);
+
+      if (existing) {
+        existing.quantity += quantity;
+      } else {
+        cart.push({ name, price, quantity });
+      }
+
+      localStorage.setItem("cart", JSON.stringify(cart));
+      alert(`${name} تمت إضافته إلى السلة (الكمية: ${quantity})`);
+      loadTotal();
+    };
+
+    function updateProductTotal() {
+      const price = parseInt(product.getAttribute("data-price"));
+      const quantity = parseInt(quantitySpan.textContent);
+      totalLine.textContent = `السعر الكلي: ${(price * quantity).toLocaleString()} د.ع`;
     }
-    localStorage.setItem('cart', JSON.stringify(cart));
-    updateCartCount();
-  }
 
-  document.addEventListener('DOMContentLoaded', () => {
-    updateCartCount();
-
-    document.querySelectorAll('.product').forEach(product => {
-      const price = Number(product.getAttribute('data-price'));
-      const name = product.getAttribute('data-name');
-      const quantitySpan = product.querySelector('.quantity');
-      const increaseBtn = product.querySelector('.increase');
-      const decreaseBtn = product.querySelector('.decrease');
-      const addBtn = product.querySelector('.add-btn');
-
-      increaseBtn.addEventListener('click', () => {
-        let qty = Number(quantitySpan.textContent);
-        qty++;
-        quantitySpan.textContent = qty;
-        updateProductTotals();
-      });
-
-      decreaseBtn.addEventListener('click', () => {
-        let qty = Number(quantitySpan.textContent);
-        if (qty > 0) qty--;
-        quantitySpan.textContent = qty;
-        updateProductTotals();
-      });
-
-      addBtn.addEventListener('click', () => {
-        const qty = Number(quantitySpan.textContent);
-        addToCart(name, price, qty);
-        quantitySpan.textContent = 0;
-        updateProductTotals();
-      });
-    });
-
-    updateProductTotals();
+    updateProductTotal();
   });
+
+  loadTotal();
 </script>
 
 </body>
