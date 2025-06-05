@@ -263,26 +263,17 @@
     document.getElementById("products-total").textContent = totalPrice.toLocaleString() + " د.ع";
   }
 
-  document.querySelectorAll('.product').forEach(product => {
-    const decreaseBtn = product.querySelector('.decrease');
-    const increaseBtn = product.querySelector('.increase');
-    const quantitySpan = product.querySelector('.quantity');
-    const addBtn = product.querySelector('.add-btn');
-
-    decreaseBtn.onclick = () => {
-      let current = parseInt(quantitySpan.textContent);
-      if (current > 0) {
-        quantitySpan.textContent = current - 1;
-        updateProductTotals();
-      }
-    };
-
-    increaseBtn.onclick = () => {
-      let current = parseInt(quantitySpan.textContent);
-      quantitySpan.textContent = current + 1;
-      updateProductTotals();
-    };
-
-    addBtn.onclick = () => {
-      const name = product.getAttribute("data-name");
-      const price = parseInt(product.getAttribute("
+  // إضافة أو تحديث المنتج في السلة
+  function addToCart(name, price, quantity) {
+    if (quantity <= 0) {
+      alert("يرجى زيادة الكمية أولاً.");
+      return;
+    }
+    let cart = JSON.parse(localStorage.getItem("cart") || "[]");
+    const existingIndex = cart.findIndex(item => item.name === name);
+    if (existingIndex !== -1) {
+      cart[existingIndex].quantity += quantity;
+    } else {
+      cart.push({name, price, quantity});
+    }
+    localStorage.setItem("cart", JSON.stringify
