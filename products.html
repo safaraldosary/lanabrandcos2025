@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -55,20 +56,20 @@
 
     .product h3 {
       margin: 20px 0 10px;
-      font-size: 2.4em;
+      font-size: 2.2em;
       color: #007b8f;
     }
 
     .product p {
       color: #333;
-      font-size: 1.6em;
+      font-size: 1.4em;
       line-height: 1.6;
     }
 
     .product .price {
       color: #007b8f;
       font-weight: bold;
-      font-size: 1.8em;
+      font-size: 1.6em;
       margin-top: 15px;
     }
 
@@ -81,8 +82,8 @@
     }
 
     .quantity-btn {
-      padding: 10px 15px;
-      font-size: 1.2em;
+      padding: 12px 16px;
+      font-size: 1.4em;
       background-color: #007b8f;
       color: white;
       border: none;
@@ -105,7 +106,7 @@
       padding: 15px 25px;
       border-radius: 7px;
       cursor: pointer;
-      font-size: 1.4em;
+      font-size: 1.3em;
     }
   </style>
 </head>
@@ -119,11 +120,12 @@
 </nav>
 
 <div class="products">
-  <div class="product" data-name="صابون لبان الذكر">
+  <!-- المنتج الأول -->
+  <div class="product">
     <img src="https://via.placeholder.com/250x250?text=صابون+لبان+الذكر" alt="صابون لبان الذكر">
     <h3>صابون لبان الذكر</h3>
     <p>دللي بشرتك بصابون طبيعي خالٍ من المواد الكيميائية وامنحي بشرتك نعومة وانتعاش طبيعي.</p>
-    <p class="price">5000 د.ع</p>
+    <p class="price" data-price="5000">5000 د.ع</p>
     <div class="quantity-control">
       <button class="quantity-btn" onclick="changeQty(this, -1)">-</button>
       <span class="quantity-display">1</span>
@@ -132,11 +134,12 @@
     <button class="add-btn" onclick="addToCart(this)">أضف إلى السلة</button>
   </div>
 
-  <div class="product" data-name="منتج 2">
+  <!-- المنتج الثاني -->
+  <div class="product">
     <img src="https://via.placeholder.com/250x250?text=منتج+2" alt="منتج 2">
     <h3>منتج 2</h3>
     <p>وصف مختصر ومميز للمنتج الثاني مع فوائد الاستخدام وطريقة التوصيل.</p>
-    <p class="price">7000 د.ع</p>
+    <p class="price" data-price="7000">7000 د.ع</p>
     <div class="quantity-control">
       <button class="quantity-btn" onclick="changeQty(this, -1)">-</button>
       <span class="quantity-display">1</span>
@@ -158,22 +161,21 @@
 
   function addToCart(button) {
     const productDiv = button.closest(".product");
-    const productName = productDiv.getAttribute("data-name");
-    const qty = parseInt(productDiv.querySelector(".quantity-display").textContent);
-    const priceText = productDiv.querySelector(".price").textContent;
-    const price = parseInt(priceText.replace(/\D/g, ""));
+    const name = productDiv.querySelector("h3").textContent;
+    const price = parseInt(productDiv.querySelector(".price").getAttribute("data-price"));
+    const quantity = parseInt(productDiv.querySelector(".quantity-display").textContent);
 
     let cart = JSON.parse(localStorage.getItem("cart") || "[]");
-    let existingItem = cart.find(item => item.name === productName);
 
-    if (existingItem) {
-      existingItem.quantity += qty;
+    let existing = cart.find(item => item.name === name);
+    if (existing) {
+      existing.quantity += quantity;
     } else {
-      cart.push({ name: productName, quantity: qty, price: price });
+      cart.push({ name, price, quantity });
     }
 
     localStorage.setItem("cart", JSON.stringify(cart));
-    alert(`تمت إضافة ${qty} من "${productName}" إلى السلة.`);
+    alert(`تمت إضافة ${quantity} من "${name}" إلى السلة.`);
   }
 </script>
 
