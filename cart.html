@@ -190,7 +190,89 @@
 
   window.onload = loadCart;
 </script>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <title>سلة المشتريات - لانا براند</title>
+  <style>
+    body { font-family: Arial; padding: 20px; background: #f9f9f9; }
+    h1 { color: #007b8f; }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    th, td { padding: 12px; border: 1px solid #ccc; text-align: center; }
+    th { background-color: #007b8f; color: white; }
+    .empty { text-align: center; font-size: 20px; margin-top: 40px; color: #666; }
+    .remove-btn {
+      background-color: #d9534f;
+      border: none;
+      color: white;
+      padding: 6px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
 
+  <h1>سلة المشتريات</h1>
+
+  <div id="cart-container"></div>
+
+  <script>
+    function renderCart() {
+      const cartContainer = document.getElementById('cart-container');
+      let cart = JSON.parse(localStorage.getItem('cart') || '{}');
+
+      const productNames = Object.keys(cart);
+
+      if(productNames.length === 0) {
+        cartContainer.innerHTML = '<p class="empty">سلة المشتريات فارغة</p>';
+        return;
+      }
+
+      let tableHTML = `
+        <table>
+          <thead>
+            <tr>
+              <th>اسم المنتج</th>
+              <th>الكمية</th>
+              <th>إزالة</th>
+            </tr>
+          </thead>
+          <tbody>
+      `;
+
+      productNames.forEach(name => {
+        const qty = cart[name];
+        tableHTML += `
+          <tr>
+            <td>${name}</td>
+            <td>${qty}</td>
+            <td><button class="remove-btn" data-name="${name}">حذف</button></td>
+          </tr>
+        `;
+      });
+
+      tableHTML += `</tbody></table>`;
+
+      cartContainer.innerHTML = tableHTML;
+
+      // إضافة حدث حذف المنتج من السلة
+      document.querySelectorAll('.remove-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const name = btn.getAttribute('data-name');
+          delete cart[name];
+          localStorage.setItem('cart', JSON.stringify(cart));
+          renderCart();
+        });
+      });
+    }
+
+    renderCart();
+  </script>
+
+</body>
+</html>
 </body>
 </html>
 
