@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -56,20 +55,20 @@
 
     .product h3 {
       margin: 20px 0 10px;
-      font-size: 2em;
+      font-size: 2.4em;
       color: #007b8f;
     }
 
     .product p {
       color: #333;
-      font-size: 1.3em;
+      font-size: 1.6em;
       line-height: 1.6;
     }
 
     .product .price {
       color: #007b8f;
       font-weight: bold;
-      font-size: 1.4em;
+      font-size: 1.8em;
       margin-top: 15px;
     }
 
@@ -93,7 +92,7 @@
 
     .quantity-display {
       min-width: 40px;
-      font-size: 1.2em;
+      font-size: 1.4em;
       text-align: center;
       font-weight: bold;
     }
@@ -103,10 +102,10 @@
       background-color: #28a745;
       color: white;
       border: none;
-      padding: 12px 20px;
+      padding: 15px 25px;
       border-radius: 7px;
       cursor: pointer;
-      font-size: 1.2em;
+      font-size: 1.4em;
     }
   </style>
 </head>
@@ -161,6 +160,8 @@
     const productDiv = button.closest(".product");
     const productName = productDiv.getAttribute("data-name");
     const qty = parseInt(productDiv.querySelector(".quantity-display").textContent);
+    const priceText = productDiv.querySelector(".price").textContent;
+    const price = parseInt(priceText.replace(/\D/g, ""));
 
     let cart = JSON.parse(localStorage.getItem("cart") || "[]");
     let existingItem = cart.find(item => item.name === productName);
@@ -168,7 +169,7 @@
     if (existingItem) {
       existingItem.quantity += qty;
     } else {
-      cart.push({ name: productName, quantity: qty });
+      cart.push({ name: productName, quantity: qty, price: price });
     }
 
     localStorage.setItem("cart", JSON.stringify(cart));
