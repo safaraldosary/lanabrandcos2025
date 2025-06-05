@@ -9,47 +9,53 @@
     header, .footer { background-color: #007b8f; color: white; text-align: center; padding: 20px; }
     nav { background-color: #005f6b; padding: 10px; text-align: center; }
     nav a { color: white; margin: 10px; text-decoration: none; font-weight: bold; }
-    .products { 
-      display: grid; 
-      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); /* كبرت عرض كل منتج */
-      gap: 30px; 
-      padding: 40px; 
+
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 30px;
+      padding: 40px;
     }
-    .product { 
-      background: white; 
-      padding: 30px; /* كبرت البادينج */
-      border-radius: 10px; 
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1); 
-      text-align: center; 
+
+    .product {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      text-align: center;
     }
-    .product img { 
-      max-width: 100%; 
-      border-radius: 8px; 
-      height: 300px; /* كبرت ارتفاع الصورة */
+
+    .product img {
+      max-width: 100%;
+      border-radius: 8px;
+      height: 300px;
       object-fit: cover;
     }
-    .product h3 { 
-      margin: 15px 0; 
-      font-size: 28px; /* كبرت حجم الاسم */
+
+    .product h3 {
+      margin: 15px 0;
+      font-size: 28px;
       font-weight: bold;
     }
-    .product p { 
-      color: #444; 
-      font-size: 18px; /* كبرت حجم النص */
+
+    .product p {
+      color: #444;
+      font-size: 18px;
       line-height: 1.5;
       text-align: justify;
-      max-height: 200px; /* تحديد ارتفاع ثابت مع تمرير إذا طلع النص طويل */
+      max-height: 200px;
       overflow-y: auto;
       margin-bottom: 15px;
     }
-    .product .price { 
-      color: #007b8f; 
-      font-weight: bold; 
-      font-size: 22px; /* كبرت حجم السعر */
+
+    .product .price {
+      color: #007b8f;
+      font-weight: bold;
+      font-size: 22px;
       margin-bottom: 15px;
     }
+
     .add-btn {
-      margin-top: 10px;
       background-color: #007b8f;
       color: white;
       border: none;
@@ -57,14 +63,16 @@
       border-radius: 5px;
       cursor: pointer;
       font-size: 18px;
+      margin-top: 10px;
     }
-    /* تصميم أزرار الكمية */
+
     .quantity-controls {
       display: inline-flex;
       align-items: center;
       margin-left: 15px;
       user-select: none;
     }
+
     .quantity-controls button {
       background-color: #005f6b;
       color: white;
@@ -74,12 +82,20 @@
       cursor: pointer;
       border-radius: 5px;
     }
+
     .quantity-controls span {
       margin: 0 10px;
       font-size: 18px;
       min-width: 30px;
       text-align: center;
       display: inline-block;
+    }
+
+    #products-total {
+      text-align: center;
+      font-size: 1.5em;
+      font-weight: bold;
+      margin-top: 20px;
     }
   </style>
 </head>
@@ -94,100 +110,88 @@
 
 <div class="products">
 
-  <div class="product" data-name="صابون لبان الذكر">
+  <!-- منتج -->
+  <div class="product" data-name="صابون لبان الذكر" data-price="5000">
     <img src="https://via.placeholder.com/350x300?text=منتج+1" alt="منتج 1">
     <h3>صابون لبان الذكر</h3>
-    <p>
-      قولي وداعآ للصابون التجاري والشحوم الحيوانية والمواد الكيميائية الداخلة في صناعة الصابون
-      ودللي بشرتك من الطبيعة ومنتجاتها
-      الصابونة المذهله التي لن تشعرك بالندم بعد الاستمتاع بمكوناتها وانتعاشها
-      صابونتي المفضلة المصنوعه من لبان الذكر وزبدة الكاكاو والكليسيرين ومجموعة فريدة من الزيوت والعناصر المغذية
-      يحتوي لبان الذكر على مادة الكولاجين الطبيعية والكثير من المواد الأخرى التي تساهم في تجديد خلايا البشرة وتفتيح لونها، إليك بعض فوائد لبان الذكر للبشرة:
-      <br><br>
-      تقشير خلايا الجلد الميت وتجديدها، مما يساعد على تبييضها وتفتيحها.
-      معالجة البشرة من الاسمرار الذي يسببه التعرض المباشر لأشعة الشمس.
-      التخلص من الاسوداد حول الفم والعينين.
-      توحيد لون البشرة.
-      التخفيف من التورم الناتج عن لدغات الحشرات وتسريع شفائها.
-      مضاد للعدوى، وينظف الجروح والخدوش، ويعجل من شفائها، دون أن يترك ندوب.
-      التخلص من الندوب الناتجة عن العمليات الجراحية
-      اقتنيها ولا تترددي فهي دائما بالمركز الاول
-      السعر 4000 دينار اكثر من قطعة 3500
-      اسعار خاصة للجملة والكميات
-      <br><br>
-      يتوفر التوصيل(سليمانية،دهوك،بغداد)5آلاف
-      داخل (اربيل)4آلاف
-      باقي محافظات العراق 6آلاف⁩‬
-    </p>
+    <p>وصف طويل للمنتج...</p>
     <p class="price">5000 د.ع</p>
-
-    <button class="add-btn" onclick="addToCart(this)">أضف إلى السلة</button>
 
     <div class="quantity-controls">
       <button class="decrease">-</button>
       <span class="quantity">1</span>
       <button class="increase">+</button>
     </div>
+
+    <button class="add-btn">أضف إلى السلة</button>
   </div>
 
-  <div class="product" data-name="منتج 2">
+  <!-- منتج 2 -->
+  <div class="product" data-name="منتج 2" data-price="35000">
     <img src="https://via.placeholder.com/350x300?text=منتج+2" alt="منتج 2">
     <h3>منتج 2</h3>
     <p>وصف المنتج 2</p>
-    <p class="price">35$</p>
-
-    <button class="add-btn" onclick="addToCart(this)">أضف إلى السلة</button>
+    <p class="price">35000 د.ع</p>
 
     <div class="quantity-controls">
       <button class="decrease">-</button>
       <span class="quantity">1</span>
       <button class="increase">+</button>
     </div>
+
+    <button class="add-btn">أضف إلى السلة</button>
   </div>
 
 </div>
 
+<p id="products-total">الإجمالي الكلي: 0 د.ع</p>
+
 <div class="footer"><p>© 2025 لانا براند - جميع الحقوق محفوظة</p></div>
 
 <script>
-  // ضبط تفاعل أزرار زيادة ونقص الكمية لكل منتج
+  function loadTotal() {
+    const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+    let total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    document.getElementById("products-total").textContent = `الإجمالي الكلي: ${total.toLocaleString()} د.ع`;
+  }
+
   document.querySelectorAll('.product').forEach(product => {
     const decreaseBtn = product.querySelector('.decrease');
     const increaseBtn = product.querySelector('.increase');
     const quantitySpan = product.querySelector('.quantity');
+    const addBtn = product.querySelector('.add-btn');
 
-    decreaseBtn.addEventListener('click', () => {
-      let currentQty = parseInt(quantitySpan.textContent);
-      if (currentQty > 1) {
-        quantitySpan.textContent = currentQty - 1;
+    decreaseBtn.onclick = () => {
+      let current = parseInt(quantitySpan.textContent);
+      if (current > 1) quantitySpan.textContent = current - 1;
+    };
+
+    increaseBtn.onclick = () => {
+      let current = parseInt(quantitySpan.textContent);
+      quantitySpan.textContent = current + 1;
+    };
+
+    addBtn.onclick = () => {
+      const name = product.getAttribute("data-name");
+      const price = parseInt(product.getAttribute("data-price"));
+      const quantity = parseInt(quantitySpan.textContent);
+
+      let cart = JSON.parse(localStorage.getItem("cart") || "[]");
+      let existing = cart.find(item => item.name === name);
+
+      if (existing) {
+        existing.quantity += quantity;
+      } else {
+        cart.push({ name, price, quantity });
       }
-    });
 
-    increaseBtn.addEventListener('click', () => {
-      let currentQty = parseInt(quantitySpan.textContent);
-      quantitySpan.textContent = currentQty + 1;
-    });
+      localStorage.setItem("cart", JSON.stringify(cart));
+      alert(`${name} تمت إضافته إلى السلة (الكمية: ${quantity})`);
+      loadTotal();
+    };
   });
 
-  // دالة لإضافة المنتج مع الكمية للسلة وتخزينها في localStorage
-  function addToCart(button) {
-    const productDiv = button.closest('.product');
-    const productName = productDiv.getAttribute('data-name');
-    const quantity = parseInt(productDiv.querySelector('.quantity').textContent);
-
-    let cart = JSON.parse(localStorage.getItem("cart") || "{}");
-
-    // إذا المنتج موجود بالسلة زود الكمية، وإلا ضيفه
-    if(cart[productName]){
-      cart[productName] += quantity;
-    } else {
-      cart[productName] = quantity;
-    }
-
-    localStorage.setItem("cart", JSON.stringify(cart));
-
-    alert(productName + " تمت إضافته إلى السلة (الكمية: " + quantity + ")");
-  }
+  loadTotal();
 </script>
 
 </body>
