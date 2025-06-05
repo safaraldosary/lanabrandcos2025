@@ -3,16 +3,16 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8" />
-  <title>المنتجات - لانا براند</title>
+  <title>منتجات لانا براند</title>
   <style>
     body {
-      font-family: Arial;
+      font-family: Arial, sans-serif;
       background-color: #f9f9f9;
       margin: 0;
       padding-bottom: 250px;
     }
 
-    header, .footer {
+    header, footer {
       background-color: #007b8f;
       color: white;
       text-align: center;
@@ -53,7 +53,7 @@
 
     .product img {
       width: 100%;
-      height: 320px;
+      height: 400px;
       object-fit: cover;
       border-radius: 10px;
     }
@@ -109,6 +109,7 @@
       font-size: 28px;
       cursor: pointer;
       border-radius: 6px;
+      user-select: none;
     }
 
     .quantity-controls span {
@@ -117,6 +118,7 @@
       width: 40px;
       text-align: center;
       display: inline-block;
+      user-select: none;
     }
 
     .cart-sidebar {
@@ -139,6 +141,7 @@
       margin-bottom: 15px;
       text-align: center;
       width: 130px;
+      user-select: none;
     }
 
     .cart-icon {
@@ -152,8 +155,10 @@
       width: 90px;
       height: 90px;
       text-align: center;
-      line-height: 60px;
       user-select: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
     .cart-icon span {
@@ -162,57 +167,45 @@
       left: -8px;
       background: red;
       color: white;
-      font-size: 18px;
-      padding: 5px 9px;
+      font-size: 20px;
+      padding: 5px 11px;
       border-radius: 50%;
-      min-width: 28px;
-      text-align: center;
+      min-width: 30px;
       font-weight: bold;
       box-sizing: border-box;
       user-select: none;
     }
 
-    .footer {
+    footer {
       position: fixed;
       bottom: 0;
       width: 100%;
       font-size: 18px;
       padding: 12px 0;
+      background-color: #007b8f;
+      color: white;
+      text-align: center;
     }
   </style>
 </head>
 <body>
 
-<header><h1>لانا براند</h1></header>
+<header>
+  <h1>لانا براند</h1>
+</header>
 
 <nav>
-  <a href="index.html">الرئيسية</a>
-  <a href="products.html">المنتجات</a>
+  <a href="#">الرئيسية</a>
+  <a href="#">المنتجات</a>
   <a href="cart.html">سلة المشتريات</a>
 </nav>
 
 <div class="products">
-  <!-- منتج -->
   <div class="product" data-name="صابون لبان الذكر" data-price="5000">
-    <img src="https://via.placeholder.com/800x400?text=منتج+1" alt="منتج 1" />
+    <img src="https://via.placeholder.com/800x400?text=صابون+لبان+الذكر" alt="صابون لبان الذكر" />
     <h3>صابون لبان الذكر</h3>
-    <p>وصف طويل للمنتج...</p>
+    <p>وصف المنتج هنا...</p>
     <p class="price">5000 د.ع</p>
-    <p class="total-price">الإجمالي: 0 د.ع</p>
-    <div class="quantity-controls">
-      <button class="decrease">-</button>
-      <span class="quantity">0</span>
-      <button class="increase">+</button>
-    </div>
-    <button class="add-btn">أضف إلى السلة</button>
-  </div>
-
-  <!-- منتج 2 -->
-  <div class="product" data-name="منتج 2" data-price="35000">
-    <img src="https://via.placeholder.com/800x400?text=منتج+2" alt="منتج 2" />
-    <h3>منتج 2</h3>
-    <p>وصف المنتج 2</p>
-    <p class="price">35000 د.ع</p>
     <p class="total-price">الإجمالي: 0 د.ع</p>
     <div class="quantity-controls">
       <button class="decrease">-</button>
@@ -223,7 +216,6 @@
   </div>
 </div>
 
-<!-- السلة الجانبية -->
 <div class="cart-sidebar">
   <div class="cart-total">
     <div>السعر الكلي</div>
@@ -235,45 +227,82 @@
   </div>
 </div>
 
-<div class="footer"><p>© 2025 لانا براند - جميع الحقوق محفوظة</p></div>
+<footer>
+  <p>© 2025 لانا براند - جميع الحقوق محفوظة</p>
+</footer>
 
 <script>
-  // تحديث حساب الإجمالي وعداد الكميات داخل صفحة المنتجات فقط
   function updateProductTotals() {
-    const products = document.querySelectorAll(".product");
-    products.forEach(product => {
-      const price = parseInt(product.getAttribute("data-price"));
-      const qtySpan = product.querySelector(".quantity");
-      const qty = parseInt(qtySpan.textContent);
+    document.querySelectorAll('.product').forEach(product => {
+      const price = Number(product.getAttribute('data-price'));
+      const qty = Number(product.querySelector('.quantity').textContent);
       const total = price * qty;
-      product.querySelector(".total-price").textContent = `الإجمالي: ${total.toLocaleString()} د.ع`;
+      product.querySelector('.total-price').textContent = `الإجمالي: ${total.toLocaleString()} د.ع`;
     });
   }
 
-  // تحديث عداد السلة بناء على محتوى localStorage فقط
   function updateCartCount() {
-    let cart = JSON.parse(localStorage.getItem("cart") || "[]");
+    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
     let count = 0;
     let totalPrice = 0;
     cart.forEach(item => {
       count += item.quantity;
       totalPrice += item.price * item.quantity;
     });
-    document.getElementById("cart-count").textContent = count;
-    document.getElementById("products-total").textContent = totalPrice.toLocaleString() + " د.ع";
+    document.getElementById('cart-count').textContent = count;
+    document.getElementById('products-total').textContent = totalPrice.toLocaleString() + ' د.ع';
   }
 
-  // إضافة أو تحديث المنتج في السلة
   function addToCart(name, price, quantity) {
-    if (quantity <= 0) {
-      alert("يرجى زيادة الكمية أولاً.");
-      return;
-    }
-    let cart = JSON.parse(localStorage.getItem("cart") || "[]");
-    const existingIndex = cart.findIndex(item => item.name === name);
-    if (existingIndex !== -1) {
-      cart[existingIndex].quantity += quantity;
+    if (quantity <= 0) return;
+
+    let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+    const index = cart.findIndex(item => item.name === name);
+    if (index >= 0) {
+      cart[index].quantity += quantity;
     } else {
-      cart.push({name, price, quantity});
+      cart.push({ name, price, quantity });
     }
-    localStorage.setItem("cart", JSON.stringify
+    localStorage.setItem('cart', JSON.stringify(cart));
+    updateCartCount();
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    updateCartCount();
+
+    document.querySelectorAll('.product').forEach(product => {
+      const price = Number(product.getAttribute('data-price'));
+      const name = product.getAttribute('data-name');
+      const quantitySpan = product.querySelector('.quantity');
+      const increaseBtn = product.querySelector('.increase');
+      const decreaseBtn = product.querySelector('.decrease');
+      const addBtn = product.querySelector('.add-btn');
+
+      increaseBtn.addEventListener('click', () => {
+        let qty = Number(quantitySpan.textContent);
+        qty++;
+        quantitySpan.textContent = qty;
+        updateProductTotals();
+      });
+
+      decreaseBtn.addEventListener('click', () => {
+        let qty = Number(quantitySpan.textContent);
+        if (qty > 0) qty--;
+        quantitySpan.textContent = qty;
+        updateProductTotals();
+      });
+
+      addBtn.addEventListener('click', () => {
+        const qty = Number(quantitySpan.textContent);
+        addToCart(name, price, qty);
+        quantitySpan.textContent = 0;
+        updateProductTotals();
+      });
+    });
+
+    updateProductTotals();
+  });
+</script>
+
+</body>
+</html>
