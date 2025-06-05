@@ -3,40 +3,39 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <title>لانا براند - المنتجات</title>
+  <title>منتجات لانا براند</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #f9f9f9;
       margin: 0;
+      background-color: #f5f5f5;
     }
 
     header {
       background-color: #007b8f;
       color: white;
       text-align: center;
-      padding: 30px;
+      padding: 20px;
       font-size: 28px;
-    }
-
-    header h1 {
       cursor: pointer;
     }
 
     .filters, .search-box {
-      text-align: center;
-      margin: 20px;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      padding: 20px;
+      flex-wrap: wrap;
     }
 
     .filters button {
       background-color: #007b8f;
       color: white;
       border: none;
-      padding: 16px 28px;
-      border-radius: 10px;
+      padding: 14px 22px;
+      border-radius: 8px;
+      font-size: 20px;
       cursor: pointer;
-      font-size: 22px;
-      margin: 5px;
     }
 
     .search-box input {
@@ -49,77 +48,51 @@
 
     .products {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 30px;
-      padding: 40px 20px;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 20px;
+      padding: 20px;
     }
 
     .product {
       background: white;
       border-radius: 12px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      padding: 20px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
       text-align: center;
+      padding: 10px;
+      aspect-ratio: 1/1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
       cursor: pointer;
     }
 
     .product img {
       width: 100%;
-      height: 250px;
+      height: auto;
+      max-height: 60%;
+      border-radius: 8px;
       object-fit: cover;
-      border-radius: 10px;
     }
 
     .product h3 {
-      margin: 15px 0 10px;
-      font-size: 22px;
+      font-size: 20px;
+      margin: 10px 0 5px;
     }
 
     .product .price {
+      font-size: 18px;
       color: #007b8f;
-      font-size: 20px;
-      font-weight: bold;
-      margin-bottom: 10px;
-    }
-
-    .product .quantity-controls,
-    .product .add-btn {
-      display: block;
-    }
-
-    .quantity-controls {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin-bottom: 10px;
-    }
-
-    .quantity-controls button {
-      background-color: #005f6b;
-      color: white;
-      border: none;
-      padding: 6px 14px;
-      font-size: 22px;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-
-    .quantity-controls span {
-      font-size: 20px;
-      margin: 0 10px;
-      width: 30px;
-      text-align: center;
-      display: inline-block;
     }
 
     .add-btn {
       background-color: #007b8f;
       color: white;
-      padding: 10px 20px;
+      padding: 10px;
       border: none;
-      border-radius: 8px;
-      font-size: 18px;
+      border-radius: 6px;
       cursor: pointer;
+      font-size: 18px;
+      margin-top: 8px;
     }
 
     .cart-sidebar {
@@ -136,26 +109,26 @@
     .cart-total {
       background-color: #007b8f;
       color: white;
-      padding: 8px;
-      font-size: 16px;
+      padding: 12px;
+      font-size: 18px;
       border-radius: 10px;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
+      width: 130px;
       text-align: center;
-      width: 120px;
     }
 
     .cart-icon {
       background-color: #007b8f;
-      padding: 12px;
+      padding: 14px;
       border-radius: 50%;
-      font-size: 28px;
+      font-size: 30px;
       color: white;
       cursor: pointer;
       width: 60px;
       height: 60px;
       display: flex;
-      align-items: center;
       justify-content: center;
+      align-items: center;
       position: relative;
     }
 
@@ -166,74 +139,88 @@
       background: red;
       color: white;
       font-size: 14px;
-      padding: 4px 6px;
+      padding: 4px 7px;
       border-radius: 50%;
-      font-weight: bold;
     }
 
-    /* Modal Styles */
-    .modal {
+    .popup {
       position: fixed;
-      top: 0; right: 0; bottom: 0; left: 0;
-      background: rgba(0,0,0,0.5);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
-    }
-
-    .modal-content {
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
       background: white;
       padding: 30px;
-      border-radius: 12px;
-      width: 80%;
-      max-width: 700px;
-      position: relative;
+      border-radius: 14px;
+      box-shadow: 0 0 30px rgba(0,0,0,0.3);
+      z-index: 1000;
+      width: 90%;
+      max-width: 600px;
+      display: none;
+      flex-direction: column;
+      gap: 10px;
     }
 
-    .modal-content img {
+    .popup img {
       width: 100%;
-      height: 350px;
-      object-fit: cover;
       border-radius: 10px;
     }
 
-    .modal-content h3 {
-      font-size: 24px;
-      margin: 20px 0 10px;
-    }
-
-    .modal-content p {
-      font-size: 18px;
-      margin-bottom: 10px;
-    }
-
-    .modal-close {
+    .popup .close {
       position: absolute;
-      top: 12px;
-      left: 12px;
+      top: 10px;
+      left: 10px;
       background: red;
       color: white;
-      font-size: 18px;
-      padding: 4px 10px;
       border: none;
-      border-radius: 5px;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      cursor: pointer;
+      font-size: 18px;
+    }
+
+    .quantity-controls {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 15px;
+      margin: 10px 0;
+    }
+
+    .quantity-controls button {
+      padding: 10px 18px;
+      font-size: 20px;
+      border: none;
+      background-color: #007b8f;
+      color: white;
+      border-radius: 8px;
       cursor: pointer;
     }
 
-    footer {
+    .quantity-controls span {
+      font-size: 20px;
+      width: 40px;
       text-align: center;
-      padding: 20px;
+      display: inline-block;
+    }
+
+    .total-price {
+      color: #e67e22;
+      font-size: 18px;
+    }
+
+    footer {
       background-color: #007b8f;
       color: white;
+      text-align: center;
+      padding: 12px;
+      margin-top: 30px;
     }
   </style>
 </head>
 <body>
 
-<header>
-  <h1 onclick="window.location.href='index.html'">لانا براند</h1>
-</header>
+<header onclick="window.location.href='index.html'">لانا براند</header>
 
 <div class="filters">
   <button onclick="filterProducts('all')">كل المنتجات</button>
@@ -244,38 +231,34 @@
 </div>
 
 <div class="search-box">
-  <input type="text" placeholder="ابحث عن منتج..." onkeyup="searchProducts(this.value)">
+  <input type="text" id="searchInput" placeholder="ابحث عن منتج..." oninput="searchProducts()" />
 </div>
 
-<div class="products" id="product-list">
-  <!-- المنتجات تدرج هنا عبر JavaScript -->
-</div>
+<div class="products" id="productContainer"></div>
 
 <div class="cart-sidebar">
   <div class="cart-total">
     <div>السعر الكلي</div>
-    <div id="products-total">0 د.ع</div>
+    <div id="totalPrice">0 د.ع</div>
   </div>
   <div class="cart-icon" onclick="window.location.href='cart.html'">
-    🛒<span id="cart-count">0</span>
+    🛒<span id="cartCount">0</span>
   </div>
 </div>
 
-<!-- Modal -->
-<div class="modal" id="product-modal">
-  <div class="modal-content">
-    <button class="modal-close" onclick="closeModal()">إغلاق</button>
-    <img id="modal-img" src="" alt="">
-    <h3 id="modal-title"></h3>
-    <p id="modal-description"></p>
-    <div class="price" id="modal-price"></div>
-    <div class="quantity-controls">
-      <button onclick="changeModalQty(-1)">-</button>
-      <span id="modal-qty">0</span>
-      <button onclick="changeModalQty(1)">+</button>
-    </div>
-    <button class="add-btn" onclick="addModalToCart()">أضف إلى السلة</button>
+<div class="popup" id="popup">
+  <button class="close" onclick="closePopup()">×</button>
+  <img id="popupImage" src="" alt="">
+  <h3 id="popupName"></h3>
+  <p id="popupDesc"></p>
+  <p id="popupPrice" class="price"></p>
+  <div class="quantity-controls">
+    <button onclick="changePopupQty(-1)">-</button>
+    <span id="popupQty">1</span>
+    <button onclick="changePopupQty(1)">+</button>
   </div>
+  <p class="total-price" id="popupTotal">الإجمالي: 0 د.ع</p>
+  <button class="add-btn" onclick="addPopupToCart()">أضف إلى السلة</button>
 </div>
 
 <footer>
@@ -286,124 +269,109 @@
   const products = [
     {
       name: "صابون لبان الذكر",
-      category: "صابون",
       price: 5000,
-      img: "https://i.imgur.com/Wlr5rtz.jpeg",
-      desc: "صابونة طبيعية لبان الذكر لتفتيح البشرة وتجديد الخلايا."
+      category: "صابون",
+      desc: "صابون طبيعي من لبان الذكر لتفتيح وتوحيد لون البشرة.",
+      img: "https://i.imgur.com/Wlr5rtz.jpeg"
     },
     {
-      name: "زيت جوز الهند",
-      category: "زيوت",
-      price: 7000,
-      img: "https://i.imgur.com/M45LXOE.jpeg",
-      desc: "زيت طبيعي نقي لتغذية الشعر والبشرة."
+      name: "شامبو الأعشاب",
+      price: 8000,
+      category: "شامبو",
+      desc: "شامبو طبيعي بخلاصة الأعشاب لتقوية الشعر.",
+      img: "https://i.imgur.com/JE6Uj7J.jpeg"
     }
-    // يمكن إضافة المزيد
+    // أضف المزيد من المنتجات هنا
   ];
 
   let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+  let popupProduct = null;
+  let popupQty = 1;
 
   function renderProducts(list) {
-    const container = document.getElementById("product-list");
-    container.innerHTML = '';
-    list.forEach((prod, idx) => {
-      const el = document.createElement("div");
-      el.className = "product";
-      el.innerHTML = `
-        <img src="${prod.img}" alt="${prod.name}" onclick="showModal(${idx})">
-        <h3>${prod.name}</h3>
-        <div class="price">${prod.price.toLocaleString()} د.ع</div>
-        <div class="quantity-controls">
-          <button onclick="changeQty(this, -1)">-</button>
-          <span>0</span>
-          <button onclick="changeQty(this, 1)">+</button>
-        </div>
-        <button class="add-btn" onclick="addToCartDirect(this, ${idx})">أضف إلى السلة</button>
+    const container = document.getElementById("productContainer");
+    container.innerHTML = "";
+    list.forEach(p => {
+      const div = document.createElement("div");
+      div.className = "product";
+      div.innerHTML = `
+        <img src="${p.img}" alt="${p.name}" />
+        <h3>${p.name}</h3>
+        <p class="price">${p.price.toLocaleString()} د.ع</p>
+        <button class="add-btn" onclick="addToCart('${p.name}', ${p.price})">أضف إلى السلة</button>
       `;
-      container.appendChild(el);
+      div.onclick = () => showPopup(p);
+      container.appendChild(div);
     });
   }
 
-  function changeQty(btn, change) {
-    const span = btn.parentNode.querySelector('span');
-    let qty = Number(span.textContent);
-    qty = Math.max(0, qty + change);
-    span.textContent = qty;
-  }
-
-  function addToCartDirect(btn, idx) {
-    const qty = Number(btn.previousElementSibling.querySelector('span').textContent);
-    if (qty > 0) {
-      const prod = products[idx];
-      addToCart(prod.name, prod.price, qty);
-      btn.previousElementSibling.querySelector('span').textContent = 0;
-    }
-  }
-
-  function addToCart(name, price, quantity) {
-    const idx = cart.findIndex(p => p.name === name);
+  function addToCart(name, price) {
+    const idx = cart.findIndex(i => i.name === name);
     if (idx >= 0) {
-      cart[idx].quantity += quantity;
+      cart[idx].quantity += 1;
     } else {
-      cart.push({ name, price, quantity });
+      cart.push({ name, price, quantity: 1 });
     }
     localStorage.setItem('cart', JSON.stringify(cart));
-    updateCart();
+    updateCartUI();
   }
 
-  function updateCart() {
-    let count = 0, total = 0;
-    cart.forEach(p => {
-      count += p.quantity;
-      total += p.price * p.quantity;
+  function updateCartUI() {
+    let count = 0;
+    let total = 0;
+    cart.forEach(i => {
+      count += i.quantity;
+      total += i.quantity * i.price;
     });
-    document.getElementById("cart-count").textContent = count;
-    document.getElementById("products-total").textContent = total.toLocaleString() + ' د.ع';
+    document.getElementById("cartCount").textContent = count;
+    document.getElementById("totalPrice").textContent = total.toLocaleString() + " د.ع";
+  }
+
+  function showPopup(p) {
+    popupProduct = p;
+    popupQty = 1;
+    document.getElementById("popup").style.display = "flex";
+    document.getElementById("popupImage").src = p.img;
+    document.getElementById("popupName").textContent = p.name;
+    document.getElementById("popupDesc").textContent = p.desc;
+    document.getElementById("popupPrice").textContent = p.price.toLocaleString() + " د.ع";
+    document.getElementById("popupQty").textContent = popupQty;
+    document.getElementById("popupTotal").textContent = `الإجمالي: ${(popupQty * p.price).toLocaleString()} د.ع`;
+  }
+
+  function closePopup() {
+    document.getElementById("popup").style.display = "none";
+  }
+
+  function changePopupQty(val) {
+    popupQty = Math.max(1, popupQty + val);
+    document.getElementById("popupQty").textContent = popupQty;
+    document.getElementById("popupTotal").textContent = `الإجمالي: ${(popupQty * popupProduct.price).toLocaleString()} د.ع`;
+  }
+
+  function addPopupToCart() {
+    addToCart(popupProduct.name, popupProduct.price, popupQty);
+    closePopup();
+  }
+
+  function searchProducts() {
+    const term = document.getElementById("searchInput").value.trim();
+    const filtered = products.filter(p => p.name.includes(term));
+    renderProducts(filtered);
   }
 
   function filterProducts(category) {
-    if (category === 'all') renderProducts(products);
-    else renderProducts(products.filter(p => p.category === category));
-  }
-
-  function searchProducts(keyword) {
-    keyword = keyword.trim().toLowerCase();
-    renderProducts(products.filter(p => p.name.toLowerCase().includes(keyword)));
-  }
-
-  // Modal Functions
-  let modalProduct = null;
-
-  function showModal(index) {
-    modalProduct = { ...products[index], qty: 0 };
-    document.getElementById("modal-img").src = modalProduct.img;
-    document.getElementById("modal-title").textContent = modalProduct.name;
-    document.getElementById("modal-description").textContent = modalProduct.desc;
-    document.getElementById("modal-price").textContent = modalProduct.price.toLocaleString() + ' د.ع';
-    document.getElementById("modal-qty").textContent = '0';
-    document.getElementById("product-modal").style.display = "flex";
-  }
-
-  function closeModal() {
-    document.getElementById("product-modal").style.display = "none";
-  }
-
-  function changeModalQty(change) {
-    let qty = Number(document.getElementById("modal-qty").textContent);
-    qty = Math.max(0, qty + change);
-    document.getElementById("modal-qty").textContent = qty;
-  }
-
-  function addModalToCart() {
-    const qty = Number(document.getElementById("modal-qty").textContent);
-    if (qty > 0) {
-      addToCart(modalProduct.name, modalProduct.price, qty);
-      closeModal();
+    if (category === "all") {
+      renderProducts(products);
+    } else {
+      renderProducts(products.filter(p => p.category === category));
     }
   }
 
-  renderProducts(products);
-  updateCart();
+  window.onload = () => {
+    renderProducts(products);
+    updateCartUI();
+  }
 </script>
 
 </body>
