@@ -6,92 +6,375 @@
   <title>لانا براند</title>
   <style>
     body {
+      font-family: Arial, sans-serif;
       margin: 0;
-      font-family: 'Arial', sans-serif;
-      background-color: #f9f9f9;
-      color: #333;
+      background: #f9f9f9;
     }
+
     header {
-      background-color: #007b8f;
+      background: #007b8f;
       color: white;
       padding: 20px;
       text-align: center;
+      font-size: 28px;
     }
+
+    .eid-banner {
+      background: #e67e22;
+      color: white;
+      text-align: center;
+      padding: 15px;
+      font-size: 24px;
+    }
+
     nav {
-      background-color: #005f6b;
-      padding: 10px;
+      background: #005f6b;
+      padding: 12px;
       text-align: center;
     }
-    nav a {
+
+    nav button {
+      background: transparent;
+      border: none;
       color: white;
-      margin: 0 15px;
-      text-decoration: none;
+      font-size: 20px;
+      margin: 0 12px;
+      cursor: pointer;
       font-weight: bold;
     }
-    .hero {
-      background: url('https://via.placeholder.com/1200x400?text=لانا+براند') no-repeat center;
-      background-size: cover;
-      padding: 100px 20px;
-      text-align: center;
-      color: white;
+
+    .products {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+      padding: 40px 20px;
+      justify-content: center;
     }
-    .hero h1 {
-      font-size: 48px;
-      margin-bottom: 10px;
-    }
-    .section {
-      padding: 50px 20px;
-      text-align: center;
-    }
-    .section h2 {
-      margin-bottom: 20px;
-    }
-    .footer {
-      background-color: #333;
-      color: white;
+
+    .product {
+      background: white;
       padding: 20px;
+      width: 280px;
+      border-radius: 16px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
       text-align: center;
+      cursor: pointer;
     }
-    .btn {
+
+    .product img {
+      width: 100%;
+      height: 240px;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+
+    .product h3 {
+      margin: 15px 0 10px;
+      font-size: 22px;
+    }
+
+    .product p {
+      color: #007b8f;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .modal {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background: rgba(0,0,0,0.6);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 30px;
+      border-radius: 16px;
+      max-width: 500px;
+      width: 100%;
+      text-align: center;
+      position: relative;
+    }
+
+    .modal-content img {
+      width: 100%;
+      max-height: 300px;
+      object-fit: cover;
+      border-radius: 12px;
+    }
+
+    .modal-content h3 {
+      margin: 15px 0 10px;
+      font-size: 26px;
+    }
+
+    .modal-content .description {
+      font-size: 18px;
+      text-align: justify;
+      max-height: 150px;
+      overflow-y: auto;
+      margin: 10px 0;
+    }
+
+    .quantity-controls {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 15px;
+    }
+
+    .quantity-controls button {
+      background: #007b8f;
+      color: white;
+      border: none;
+      padding: 10px 18px;
+      font-size: 24px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .quantity-controls span {
+      font-size: 22px;
+      margin: 0 15px;
+      min-width: 30px;
+      text-align: center;
+      display: inline-block;
+    }
+
+    .price {
+      margin-top: 10px;
+      font-size: 20px;
+      color: #e67e22;
+    }
+
+    .add-btn {
+      background: #007b8f;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      font-size: 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 15px;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 10px;
+      left: 15px;
+      font-size: 22px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: #333;
+    }
+
+    .cart-sidebar {
+      position: fixed;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      z-index: 999;
+    }
+
+    .cart-total {
       background-color: #007b8f;
       color: white;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 5px;
+      padding: 14px 12px;
+      font-size: 20px;
+      border-radius: 14px;
+      margin-bottom: 10px;
+      text-align: center;
+      width: 150px;
+    }
+
+    .cart-icon {
+      background-color: #007b8f;
+      padding: 18px;
+      border-radius: 50%;
+      font-size: 36px;
+      color: white;
+      width: 80px;
+      height: 80px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       cursor: pointer;
-      text-decoration: none;
+      position: relative;
+    }
+
+    .cart-icon span {
+      position: absolute;
+      top: -10px;
+      left: -10px;
+      background: red;
+      color: white;
+      font-size: 16px;
+      padding: 4px 10px;
+      border-radius: 50%;
+      font-weight: bold;
+    }
+
+    footer {
+      background: #333;
+      color: white;
+      text-align: center;
+      padding: 15px;
+      margin-top: 50px;
     }
   </style>
 </head>
 <body>
 
-  <header>
-    <h1>لانا براند</h1>
-    <p>مرحباً بك في أفضل متجر إلكتروني</p>
-  </header>
+  <header>لانا براند</header>
+  <div class="eid-banner">✨ كل عام وأنتم بخير - عيد أضحى مبارك ✨</div>
 
   <nav>
-    <a href="index.html">الرئيسية</a>
-    <a href="about.html">من نحن</a>
-    <a href="services.html">خدماتي</a>
-    <a href="products.html">المنتجات</a>
-    <a href="contact.html">تواصل معنا</a>
+    <button onclick="filterProducts('all')">كل المنتجات</button>
+    <button onclick="filterProducts('صابون')">الصابون</button>
+    <button onclick="filterProducts('زيت')">الزيوت</button>
+    <button onclick="filterProducts('شامبو')">الشامبو</button>
   </nav>
 
-  <section class="hero">
-    <h1 style="color: black;">تسوق الآن</h1>
-    <p style="color: black;">منتجات مميزة - جودة عالية - أسعار منافسة</p>
-    <a href="products.html" class="btn">اكتشف المنتجات</a>
-  </section>
+  <div class="products" id="product-list"></div>
 
-  <section class="section">
-    <h2>لماذا نحن؟</h2>
-    <p>نحن نُقدّم أفضل المنتجات بعناية، مع خدمة عملاء مميزة وشحن سريع لجميع المدن.</p>
-  </section>
-
-  <div class="footer">
-    <p>© 2025 لانا براند - جميع الحقوق محفوظة</p>
+  <div class="modal" id="product-modal">
+    <div class="modal-content">
+      <button class="close-btn" onclick="closeModal()">✖</button>
+      <img id="modal-img">
+      <h3 id="modal-name"></h3>
+      <div class="description" id="modal-description"></div>
+      <div class="price">السعر: <span id="modal-price"></span> د.ع</div>
+      <div class="quantity-controls">
+        <button onclick="changeQty(-1)">-</button>
+        <span id="modal-qty">1</span>
+        <button onclick="changeQty(1)">+</button>
+      </div>
+      <div class="price">الإجمالي: <span id="modal-total"></span> د.ع</div>
+      <button class="add-btn" onclick="addToCart()">أضف إلى السلة</button>
+    </div>
   </div>
+
+  <div class="cart-sidebar">
+    <div class="cart-total">
+      <div>السعر الكلي</div>
+      <div id="cart-total">0 د.ع</div>
+    </div>
+    <div class="cart-icon">
+      🛒
+      <span id="cart-count">0</span>
+    </div>
+  </div>
+
+  <footer>© 2025 لانا براند - جميع الحقوق محفوظة</footer>
+
+  <script>
+    const products = [
+      {
+        name: "صابون لبان الذكر",
+        price: 5000,
+        category: "صابون",
+        image: "https://via.placeholder.com/300x240?text=صابون+لبان+الذكر",
+        description: "صابون طبيعي من لبان الذكر مع زبدة الكاكاو... مفيد لتفتيح البشرة وتنظيفها وتجديد خلاياها."
+      },
+      {
+        name: "زيت جوز الهند",
+        price: 7000,
+        category: "زيت",
+        image: "https://via.placeholder.com/300x240?text=زيت+جوز+الهند",
+        description: "زيت طبيعي نقي 100% لتغذية الشعر والبشرة."
+      },
+      {
+        name: "شامبو الأعشاب",
+        price: 8000,
+        category: "شامبو",
+        image: "https://via.placeholder.com/300x240?text=شامبو+الأعشاب",
+        description: "شامبو طبيعي بخلاصة الأعشاب للعناية بالشعر وفروة الرأس."
+      }
+    ];
+
+    let modalProduct = {};
+    let cart = [];
+
+    function renderProducts(list = products) {
+      const container = document.getElementById('product-list');
+      container.innerHTML = '';
+      list.forEach(prod => {
+        const div = document.createElement('div');
+        div.className = 'product';
+        div.onclick = () => openModal(prod);
+        div.innerHTML = `
+          <img src="${prod.image}" />
+          <h3>${prod.name}</h3>
+          <p>${prod.price.toLocaleString()} د.ع</p>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function filterProducts(category) {
+      if (category === 'all') {
+        renderProducts(products);
+      } else {
+        const filtered = products.filter(p => p.category === category);
+        renderProducts(filtered);
+      }
+    }
+
+    function openModal(product) {
+      modalProduct = product;
+      document.getElementById('modal-img').src = product.image;
+      document.getElementById('modal-name').textContent = product.name;
+      document.getElementById('modal-description').textContent = product.description;
+      document.getElementById('modal-price').textContent = product.price.toLocaleString();
+      document.getElementById('modal-qty').textContent = 1;
+      document.getElementById('modal-total').textContent = product.price.toLocaleString();
+      document.getElementById('product-modal').style.display = 'flex';
+    }
+
+    function closeModal() {
+      document.getElementById('product-modal').style.display = 'none';
+    }
+
+    function changeQty(amount) {
+      const qtyEl = document.getElementById('modal-qty');
+      let qty = Number(qtyEl.textContent);
+      qty += amount;
+      if (qty < 1) qty = 1;
+      qtyEl.textContent = qty;
+      document.getElementById('modal-total').textContent = (modalProduct.price * qty).toLocaleString();
+    }
+
+    function addToCart() {
+      const qty = Number(document.getElementById('modal-qty').textContent);
+      const existing = cart.find(item => item.name === modalProduct.name);
+      if (existing) {
+        existing.qty += qty;
+      } else {
+        cart.push({ ...modalProduct, qty });
+      }
+      updateCart();
+      closeModal();
+    }
+
+    function updateCart() {
+      const count = cart.reduce((sum, item) => sum + item.qty, 0);
+      const total = cart.reduce((sum, item) => sum + item.qty * item.price, 0);
+      document.getElementById('cart-count').textContent = count;
+      document.getElementById('cart-total').textContent = total.toLocaleString() + ' د.ع';
+    }
+
+    renderProducts();
+  </script>
 
 </body>
 </html>
