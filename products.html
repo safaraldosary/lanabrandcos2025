@@ -2,81 +2,84 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>المنتجات - لانا براند</title>
   <style>
-    body { font-family: Arial; margin: 0; background-color: #f8f8f8; }
-    header, .footer {
+    body { font-family: Arial; background-color: #f9f9f9; margin: 0; }
+    header, .footer { background-color: #007b8f; color: white; text-align: center; padding: 20px; }
+    nav { background-color: #005f6b; padding: 10px; text-align: center; }
+    nav a { color: white; margin: 10px; text-decoration: none; font-weight: bold; }
+    .products { 
+      display: grid; 
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); /* كبرت عرض كل منتج */
+      gap: 30px; 
+      padding: 40px; 
+    }
+    .product { 
+      background: white; 
+      padding: 30px; /* كبرت البادينج */
+      border-radius: 10px; 
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1); 
+      text-align: center; 
+    }
+    .product img { 
+      max-width: 100%; 
+      border-radius: 8px; 
+      height: 300px; /* كبرت ارتفاع الصورة */
+      object-fit: cover;
+    }
+    .product h3 { 
+      margin: 15px 0; 
+      font-size: 28px; /* كبرت حجم الاسم */
+      font-weight: bold;
+    }
+    .product p { 
+      color: #444; 
+      font-size: 18px; /* كبرت حجم النص */
+      line-height: 1.5;
+      text-align: justify;
+      max-height: 200px; /* تحديد ارتفاع ثابت مع تمرير إذا طلع النص طويل */
+      overflow-y: auto;
+      margin-bottom: 15px;
+    }
+    .product .price { 
+      color: #007b8f; 
+      font-weight: bold; 
+      font-size: 22px; /* كبرت حجم السعر */
+      margin-bottom: 15px;
+    }
+    .add-btn {
+      margin-top: 10px;
       background-color: #007b8f;
       color: white;
-      text-align: center;
-      padding: 20px;
-    }
-
-    nav {
-      background-color: #005f6b;
-      padding: 10px;
-      text-align: center;
-    }
-
-    nav a {
-      color: white;
-      margin: 10px;
-      text-decoration: none;
-      font-weight: bold;
-      font-size: 1.2em;
-    }
-
-    .product-container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      padding: 30px 10px;
-      gap: 20px;
-    }
-
-    .product {
-      background-color: white;
-      padding: 20px;
-      border-radius: 10px;
-      width: 300px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    .product h3 {
-      margin-top: 0;
-      font-size: 1.5em;
-      color: #007b8f;
-    }
-
-    .product p {
-      font-size: 1.2em;
-      margin: 10px 0;
-    }
-
-    .product .price {
-      font-weight: bold;
-      color: #333;
-      font-size: 1.3em;
-      margin-bottom: 10px;
-    }
-
-    .product button {
-      background-color: #28a745;
-      color: white;
-      padding: 12px;
       border: none;
-      border-radius: 6px;
+      padding: 12px 20px;
+      border-radius: 5px;
       cursor: pointer;
-      font-size: 1.2em;
-      margin-top: auto;
+      font-size: 18px;
     }
-
-    .product button:hover {
-      background-color: #218838;
+    /* تصميم أزرار الكمية */
+    .quantity-controls {
+      display: inline-flex;
+      align-items: center;
+      margin-left: 15px;
+      user-select: none;
+    }
+    .quantity-controls button {
+      background-color: #005f6b;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      font-size: 20px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    .quantity-controls span {
+      margin: 0 10px;
+      font-size: 18px;
+      min-width: 30px;
+      text-align: center;
+      display: inline-block;
     }
   </style>
 </head>
@@ -89,44 +92,101 @@
   <a href="cart.html">سلة المشتريات</a>
 </nav>
 
-<div class="product-container" id="products"></div>
+<div class="products">
+
+  <div class="product" data-name="صابون لبان الذكر">
+    <img src="https://via.placeholder.com/350x300?text=منتج+1" alt="منتج 1">
+    <h3>صابون لبان الذكر</h3>
+    <p>
+      قولي وداعآ للصابون التجاري والشحوم الحيوانية والمواد الكيميائية الداخلة في صناعة الصابون
+      ودللي بشرتك من الطبيعة ومنتجاتها
+      الصابونة المذهله التي لن تشعرك بالندم بعد الاستمتاع بمكوناتها وانتعاشها
+      صابونتي المفضلة المصنوعه من لبان الذكر وزبدة الكاكاو والكليسيرين ومجموعة فريدة من الزيوت والعناصر المغذية
+      يحتوي لبان الذكر على مادة الكولاجين الطبيعية والكثير من المواد الأخرى التي تساهم في تجديد خلايا البشرة وتفتيح لونها، إليك بعض فوائد لبان الذكر للبشرة:
+      <br><br>
+      تقشير خلايا الجلد الميت وتجديدها، مما يساعد على تبييضها وتفتيحها.
+      معالجة البشرة من الاسمرار الذي يسببه التعرض المباشر لأشعة الشمس.
+      التخلص من الاسوداد حول الفم والعينين.
+      توحيد لون البشرة.
+      التخفيف من التورم الناتج عن لدغات الحشرات وتسريع شفائها.
+      مضاد للعدوى، وينظف الجروح والخدوش، ويعجل من شفائها، دون أن يترك ندوب.
+      التخلص من الندوب الناتجة عن العمليات الجراحية
+      اقتنيها ولا تترددي فهي دائما بالمركز الاول
+      السعر 4000 دينار اكثر من قطعة 3500
+      اسعار خاصة للجملة والكميات
+      <br><br>
+      يتوفر التوصيل(سليمانية،دهوك،بغداد)5آلاف
+      داخل (اربيل)4آلاف
+      باقي محافظات العراق 6آلاف⁩‬
+    </p>
+    <p class="price">5000 د.ع</p>
+
+    <button class="add-btn" onclick="addToCart(this)">أضف إلى السلة</button>
+
+    <div class="quantity-controls">
+      <button class="decrease">-</button>
+      <span class="quantity">1</span>
+      <button class="increase">+</button>
+    </div>
+  </div>
+
+  <div class="product" data-name="منتج 2">
+    <img src="https://via.placeholder.com/350x300?text=منتج+2" alt="منتج 2">
+    <h3>منتج 2</h3>
+    <p>وصف المنتج 2</p>
+    <p class="price">35$</p>
+
+    <button class="add-btn" onclick="addToCart(this)">أضف إلى السلة</button>
+
+    <div class="quantity-controls">
+      <button class="decrease">-</button>
+      <span class="quantity">1</span>
+      <button class="increase">+</button>
+    </div>
+  </div>
+
+</div>
 
 <div class="footer"><p>© 2025 لانا براند - جميع الحقوق محفوظة</p></div>
 
 <script>
-  const products = [
-    { name: "منتج 1", description: "وصف المنتج 1", price: 10000 },
-    { name: "منتج 2", description: "وصف المنتج 2", price: 15000 },
-    { name: "منتج 3", description: "وصف المنتج 3", price: 20000 },
-    { name: "منتج 4", description: "وصف المنتج 4", price: 25000 }
-  ];
+  // ضبط تفاعل أزرار زيادة ونقص الكمية لكل منتج
+  document.querySelectorAll('.product').forEach(product => {
+    const decreaseBtn = product.querySelector('.decrease');
+    const increaseBtn = product.querySelector('.increase');
+    const quantitySpan = product.querySelector('.quantity');
 
-  const container = document.getElementById("products");
+    decreaseBtn.addEventListener('click', () => {
+      let currentQty = parseInt(quantitySpan.textContent);
+      if (currentQty > 1) {
+        quantitySpan.textContent = currentQty - 1;
+      }
+    });
 
-  products.forEach(product => {
-    const card = document.createElement("div");
-    card.className = "product";
-    card.innerHTML = `
-      <h3>${product.name}</h3>
-      <p>${product.description}</p>
-      <div class="price">${product.price.toLocaleString()} د.ع</div>
-      <button onclick='addToCart(${JSON.stringify(product)})'>🛒 أضف إلى السلة</button>
-    `;
-    container.appendChild(card);
+    increaseBtn.addEventListener('click', () => {
+      let currentQty = parseInt(quantitySpan.textContent);
+      quantitySpan.textContent = currentQty + 1;
+    });
   });
 
-  function addToCart(product) {
-    const cart = JSON.parse(localStorage.getItem("cart") || "[]");
-    const existing = cart.find(item => item.name === product.name);
+  // دالة لإضافة المنتج مع الكمية للسلة وتخزينها في localStorage
+  function addToCart(button) {
+    const productDiv = button.closest('.product');
+    const productName = productDiv.getAttribute('data-name');
+    const quantity = parseInt(productDiv.querySelector('.quantity').textContent);
 
-    if (existing) {
-      existing.quantity += 1;
+    let cart = JSON.parse(localStorage.getItem("cart") || "{}");
+
+    // إذا المنتج موجود بالسلة زود الكمية، وإلا ضيفه
+    if(cart[productName]){
+      cart[productName] += quantity;
     } else {
-      cart.push({ ...product, quantity: 1 });
+      cart[productName] = quantity;
     }
 
     localStorage.setItem("cart", JSON.stringify(cart));
-    alert("تمت إضافة المنتج إلى السلة.");
+
+    alert(productName + " تمت إضافته إلى السلة (الكمية: " + quantity + ")");
   }
 </script>
 
