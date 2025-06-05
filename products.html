@@ -8,130 +8,196 @@
       font-family: Arial, sans-serif;
       background-color: #f9f9f9;
       margin: 0;
-      padding-bottom: 250px;
+      padding-bottom: 200px;
     }
 
     header {
       background-color: #007b8f;
       color: white;
       text-align: center;
-      padding: 30px;
+      padding: 25px;
       font-size: 28px;
-      cursor: pointer;
+    }
+
+    header a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 32px;
     }
 
     .filters {
-      text-align: center;
-      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 15px;
+      background-color: #e8f5f8;
+      padding: 20px;
     }
 
     .filters button {
-      background-color: #005f6b;
+      background-color: #007b8f;
       color: white;
       border: none;
-      margin: 10px;
-      padding: 12px 20px;
-      border-radius: 8px;
+      padding: 10px 16px;
+      border-radius: 6px;
       cursor: pointer;
       font-size: 18px;
     }
 
-    .search-bar {
+    .search-box {
       text-align: center;
       margin: 20px;
     }
 
-    .search-bar input {
-      width: 60%;
-      padding: 12px;
+    .search-box input {
+      padding: 10px;
+      width: 300px;
       font-size: 18px;
-      border-radius: 8px;
+      border-radius: 6px;
       border: 1px solid #ccc;
-      text-align: right;
     }
 
     .products {
       display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 30px;
-      padding: 30px;
+      flex-direction: column;
+      gap: 50px;
+      padding: 40px 20px;
     }
 
     .product {
       background: white;
-      padding: 20px;
-      border-radius: 16px;
-      box-shadow: 0 2px 16px rgba(0,0,0,0.1);
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.1);
       text-align: center;
-      width: 300px;
+      width: 90%;
+      margin: 0 auto;
     }
 
     .product img {
       width: 100%;
-      height: 300px;
+      height: 400px;
       object-fit: cover;
-      border-radius: 12px;
+      border-radius: 10px;
     }
 
     .product h3 {
-      margin: 15px 0 10px;
-      font-size: 22px;
+      margin: 20px 0 10px;
+      font-size: 32px;
     }
 
     .product p {
-      font-size: 16px;
+      font-size: 20px;
       color: #444;
-      max-height: 80px;
+      max-height: 120px;
       overflow-y: auto;
       text-align: justify;
-      margin-bottom: 10px;
+      margin-bottom: 18px;
     }
 
     .product .price {
       color: #007b8f;
-      font-size: 20px;
+      font-size: 26px;
       font-weight: bold;
+    }
+
+    .product .total-price {
+      font-size: 22px;
+      color: #e67e22;
+      margin-top: 10px;
     }
 
     .add-btn {
       background-color: #007b8f;
       color: white;
-      padding: 10px 20px;
+      padding: 14px 24px;
       border: none;
-      border-radius: 8px;
-      font-size: 18px;
+      border-radius: 6px;
+      font-size: 20px;
       cursor: pointer;
-      margin-top: 10px;
+      margin-top: 15px;
     }
 
-    footer {
+    .quantity-controls {
+      display: inline-flex;
+      align-items: center;
+      margin-top: 14px;
+    }
+
+    .quantity-controls button {
+      background-color: #005f6b;
+      color: white;
+      border: none;
+      padding: 12px 18px;
+      font-size: 24px;
+      cursor: pointer;
+      border-radius: 6px;
+    }
+
+    .quantity-controls span {
+      font-size: 20px;
+      margin: 0 12px;
+      width: 40px;
+      text-align: center;
+      display: inline-block;
+    }
+
+    .cart-sidebar {
       position: fixed;
-      bottom: 0;
-      width: 100%;
-      font-size: 16px;
-      padding: 14px 0;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      z-index: 999;
+    }
+
+    .cart-total {
       background-color: #007b8f;
       color: white;
+      padding: 12px 10px;
+      font-size: 20px;
+      border-radius: 10px;
+      margin-bottom: 12px;
       text-align: center;
+      width: 140px;
     }
 
-    footer a {
+    .cart-icon {
+      background-color: #007b8f;
+      padding: 14px;
+      border-radius: 50%;
+      font-size: 36px;
       color: white;
-      margin: 0 10px;
-      text-decoration: none;
+      cursor: pointer;
+      width: 80px;
+      height: 80px;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+
+    .cart-icon span {
+      position: absolute;
+      top: -8px;
+      left: -8px;
+      background: red;
+      color: white;
+      font-size: 16px;
+      padding: 4px 8px;
+      border-radius: 50%;
     }
   </style>
 </head>
 <body>
 
-<header onclick="location.href='index.html'">
-  <h1>لانا براند</h1>
+<header>
+  <a href="index.html">لانا براند</a>
 </header>
-
-<div class="search-bar">
-  <input type="text" id="searchInput" placeholder="ابحث عن منتج...">
-</div>
 
 <div class="filters">
   <button onclick="filterProducts('all')">كل المنتجات</button>
@@ -141,48 +207,142 @@
   <button onclick="filterProducts('كريم')">الكريمات</button>
 </div>
 
-<div class="products" id="productsContainer">
-  <!-- مثال على منتج -->
-  <div class="product" data-category="صابون">
-    <img src="https://i.imgur.com/Wlr5rtz.jpeg" alt="صابون لبان الذكر" />
-    <h3>صابون لبان الذكر</h3>
-    <p>صابون طبيعي للبشرة مع فوائد لبان الذكر. يرطب ويوحد لون البشرة.</p>
-    <p class="price">5000 د.ع</p>
-    <button class="add-btn">أضف إلى السلة</button>
-  </div>
-
-  <!-- أضف المزيد من المنتجات هنا مع data-category -->
+<div class="search-box">
+  <input type="text" id="searchInput" onkeyup="searchProducts()" placeholder="ابحث عن منتج...">
 </div>
 
-<footer>
-  <p>© 2025 لانا براند - جميع الحقوق محفوظة</p>
-  <a href="https://www.instagram.com/lana_brand_organic" target="_blank">إنستغرام</a> |
-  <a href="https://www.facebook.com/share/19vL8gUYdh" target="_blank">فيسبوك</a>
-</footer>
+<div class="products" id="productList">
+  <!-- سيتم إدراج المنتجات هنا لاحقًا -->
+</div>
+
+<div class="cart-sidebar">
+  <div class="cart-total">
+    <div>السعر الكلي</div>
+    <div id="products-total">0 د.ع</div>
+  </div>
+  <div class="cart-icon" onclick="window.location.href='cart.html'">
+    🛒
+    <span id="cart-count">0</span>
+  </div>
+</div>
 
 <script>
-  function filterProducts(category) {
-    const products = document.querySelectorAll('.product');
-    products.forEach(p => {
-      const cat = p.getAttribute('data-category');
-      if (category === 'all' || cat.includes(category)) {
-        p.style.display = 'block';
-      } else {
-        p.style.display = 'none';
-      }
+  const productsData = [
+    {
+      name: "صابون لبان الذكر",
+      category: "صابون",
+      price: 5000,
+      image: "https://i.imgur.com/Wlr5rtz.jpeg",
+      description: "صابون طبيعي يحتوي على لبان الذكر، زبدة الكاكاو، الكليسيرين، لتفتيح البشرة وتجديدها."
+    },
+    {
+      name: "زيت الأرغان",
+      category: "زيت",
+      price: 8000,
+      image: "https://via.placeholder.com/400x400.png?text=زيت+الأرغان",
+      description: "زيت الأرغان النقي لتغذية الشعر والبشرة."
+    }
+  ];
+
+  const productList = document.getElementById('productList');
+
+  function renderProducts(products) {
+    productList.innerHTML = "";
+    products.forEach(product => {
+      const div = document.createElement('div');
+      div.className = 'product';
+      div.setAttribute('data-name', product.name);
+      div.setAttribute('data-category', product.category);
+      div.setAttribute('data-price', product.price);
+      div.innerHTML = `
+        <img src="${product.image}" alt="${product.name}" />
+        <h3>${product.name}</h3>
+        <p>${product.description}</p>
+        <p class="price">${product.price.toLocaleString()} د.ع</p>
+        <p class="total-price">الإجمالي: 0 د.ع</p>
+        <div class="quantity-controls">
+          <button class="decrease">-</button>
+          <span class="quantity">0</span>
+          <button class="increase">+</button>
+        </div>
+        <button class="add-btn">أضف إلى السلة</button>
+      `;
+      productList.appendChild(div);
+    });
+    setupEventHandlers();
+  }
+
+  function setupEventHandlers() {
+    document.querySelectorAll('.product').forEach(product => {
+      const name = product.getAttribute('data-name');
+      const price = Number(product.getAttribute('data-price'));
+      const qtySpan = product.querySelector('.quantity');
+      const totalPrice = product.querySelector('.total-price');
+
+      product.querySelector('.increase').onclick = () => {
+        let qty = Number(qtySpan.textContent);
+        qty++;
+        qtySpan.textContent = qty;
+        totalPrice.textContent = `الإجمالي: ${(qty * price).toLocaleString()} د.ع`;
+      };
+
+      product.querySelector('.decrease').onclick = () => {
+        let qty = Number(qtySpan.textContent);
+        if (qty > 0) qty--;
+        qtySpan.textContent = qty;
+        totalPrice.textContent = `الإجمالي: ${(qty * price).toLocaleString()} د.ع`;
+      };
+
+      product.querySelector('.add-btn').onclick = () => {
+        const quantity = Number(qtySpan.textContent);
+        if (quantity <= 0) return;
+        addToCart(name, price, quantity);
+        qtySpan.textContent = 0;
+        totalPrice.textContent = `الإجمالي: 0 د.ع`;
+      };
     });
   }
 
-  document.getElementById('searchInput').addEventListener('input', function () {
-    const term = this.value.toLowerCase();
-    document.querySelectorAll('.product').forEach(p => {
-      const title = p.querySelector('h3').textContent.toLowerCase();
-      if (title.includes(term)) {
-        p.style.display = 'block';
-      } else {
-        p.style.display = 'none';
-      }
+  function addToCart(name, price, quantity) {
+    let cart = JSON.parse(localStorage.getItem('cart') || '[]');
+    const index = cart.findIndex(item => item.name === name);
+    if (index >= 0) {
+      cart[index].quantity += quantity;
+    } else {
+      cart.push({ name, price, quantity });
+    }
+    localStorage.setItem('cart', JSON.stringify(cart));
+    updateCartInfo();
+  }
+
+  function updateCartInfo() {
+    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+    let totalQty = 0, totalPrice = 0;
+    cart.forEach(item => {
+      totalQty += item.quantity;
+      totalPrice += item.price * item.quantity;
     });
+    document.getElementById('cart-count').textContent = totalQty;
+    document.getElementById('products-total').textContent = `${totalPrice.toLocaleString()} د.ع`;
+  }
+
+  function filterProducts(category) {
+    if (category === "all") {
+      renderProducts(productsData);
+    } else {
+      renderProducts(productsData.filter(p => p.category.includes(category)));
+    }
+  }
+
+  function searchProducts() {
+    const search = document.getElementById("searchInput").value.toLowerCase();
+    const filtered = productsData.filter(p => p.name.toLowerCase().includes(search));
+    renderProducts(filtered);
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    renderProducts(productsData);
+    updateCartInfo();
   });
 </script>
 
