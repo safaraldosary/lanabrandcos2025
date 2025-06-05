@@ -162,118 +162,107 @@
     }
   }
 
-  function submitOrder(event) {
-    event.preventDefault();
-    const name = document.getElementById("name").value.trim();
-    const phone = document.getElementById("phone").value.trim();
-    const city = document.getElementById("city").value.trim();
-    const address = document.getElementById("address").value.trim();
-    const cart = JSON.parse(localStorage.getItem("cart") || "[]");
-
-    let message = `طلب جديد من الزبون:%0A`;
-    message += `🧑 الاسم: ${name}%0A`;
-    message += `📞 الرقم: ${phone}%0A`;
-    message += `🏙️ المحافظة: ${city}%0A`;
-    message += `📍 العنوان: ${address}%0A`;
-    message += `🛒 المنتجات:%0A`;
-    cart.forEach((item, index) => {
-      message += `${index + 1}- ${item}%0A`;
-    });
-
-    const phoneNumber = "9647834374662";
-    const whatsappURL = `https://wa.me/${phoneNumber}?text=${message}`;
-    window.open(whatsappURL, "_blank");
-
-    localStorage.removeItem("cart");
-    window.location.href = "index.html";
-  }
-
-  window.onload = loadCart;
-</script>
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>سلة المشتريات - لانا براند</title>
   <style>
-    body { font-family: Arial; padding: 20px; background: #f9f9f9; }
-    h1 { color: #007b8f; }
-    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-    th, td { padding: 12px; border: 1px solid #ccc; text-align: center; }
-    th { background-color: #007b8f; color: white; }
-    .empty { text-align: center; font-size: 20px; margin-top: 40px; color: #666; }
-    .remove-btn {
-      background-color: #d9534f;
-      border: none;
+    body { font-family: Arial; margin: 0; background-color: #f8f8f8; }
+    header, .footer {
+      background-color: #007b8f;
       color: white;
-      padding: 6px 12px;
-      border-radius: 5px;
-      cursor: pointer;
+      text-align: center;
+      padding: 20px;
+    }
+    nav {
+      background-color: #005f6b;
+      padding: 10px;
+      text-align: center;
+    }
+    nav a {
+      color: white;
+      margin: 10px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 1.2em;
+    }
+    .cart-container {
+      padding: 30px 10px;
+      max-width: 800px;
+      margin: auto;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .cart-item {
+      border-bottom: 1px solid #ccc;
+      padding: 10px 0;
+    }
+    .cart-item:last-child {
+      border-bottom: none;
+    }
+    .cart-item h3 {
+      margin: 0;
+      color: #007b8f;
+    }
+    .cart-item .price {
+      font-weight: bold;
+      margin: 5px 0;
+    }
+    .total {
+      font-size: 1.3em;
+      margin-top: 20px;
+      color: #333;
+      font-weight: bold;
     }
   </style>
 </head>
 <body>
 
-  <h1>سلة المشتريات</h1>
+<header><h1>لانا براند</h1></header>
+<nav>
+  <a href="index.html">الرئيسية</a>
+  <a href="products.html">المنتجات</a>
+  <a href="cart.html">سلة المشتريات</a>
+</nav>
 
-  <div id="cart-container"></div>
+<div class="cart-container" id="cartItems"></div>
 
-  <script>
-    function renderCart() {
-      const cartContainer = document.getElementById('cart-container');
-      let cart = JSON.parse(localStorage.getItem('cart') || '{}');
+<div class="footer"><p>© 2025 لانا براند - جميع الحقوق محفوظة</p></div>
 
-      const productNames = Object.keys(cart);
+<script>
+  const cartItemsContainer = document.getElementById("cartItems");
+  const cart = JSON.parse(localStorage.getItem("cart") || "[]");
 
-      if(productNames.length === 0) {
-        cartContainer.innerHTML = '<p class="empty">سلة المشتريات فارغة</p>';
-        return;
-      }
+  if (cart.length === 0) {
+    cartItemsContainer.innerHTML = "<p>سلة المشتريات فارغة.</p>";
+  } else {
+    let total = 0;
 
-      let tableHTML = `
-        <table>
-          <thead>
-            <tr>
-              <th>اسم المنتج</th>
-              <th>الكمية</th>
-              <th>إزالة</th>
-            </tr>
-          </thead>
-          <tbody>
+    cart.forEach(item => {
+      const itemDiv = document.createElement("div");
+      itemDiv.className = "cart-item";
+      const itemTotal = item.price * item.quantity;
+      total += itemTotal;
+
+      itemDiv.innerHTML = `
+        <h3>${item.name}</h3>
+        <p>الكمية: ${item.quantity}</p>
+        <div class="price">السعر: ${item.price.toLocaleString()} × ${item.quantity} = ${itemTotal.toLocaleString()} د.ع</div>
       `;
+      cartItemsContainer.appendChild(itemDiv);
+    });
 
-      productNames.forEach(name => {
-        const qty = cart[name];
-        tableHTML += `
-          <tr>
-            <td>${name}</td>
-            <td>${qty}</td>
-            <td><button class="remove-btn" data-name="${name}">حذف</button></td>
-          </tr>
-        `;
-      });
-
-      tableHTML += `</tbody></table>`;
-
-      cartContainer.innerHTML = tableHTML;
-
-      // إضافة حدث حذف المنتج من السلة
-      document.querySelectorAll('.remove-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-          const name = btn.getAttribute('data-name');
-          delete cart[name];
-          localStorage.setItem('cart', JSON.stringify(cart));
-          renderCart();
-        });
-      });
-    }
-
-    renderCart();
-  </script>
+    const totalDiv = document.createElement("div");
+    totalDiv.className = "total";
+    totalDiv.textContent = `السعر الكلي: ${total.toLocaleString()} د.ع`;
+    cartItemsContainer.appendChild(totalDiv);
+  }
+</script>
 
 </body>
 </html>
+
 </body>
 </html>
-
-هذا الكو  دي مال سله المشتريات عدل عليه 
